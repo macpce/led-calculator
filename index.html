@@ -3,45 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Pro-Suite V10.0 | Truck Pack & Engineering</title>
+    <title>LED Pro-Suite V11.0 | Master Technical Tool</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #0a0a0a; color: #ffffff; min-height: 100vh; display: flex; }
-        .sidebar { width: 180px; background: linear-gradient(180deg, #0d3d4d 0%, #082830 100%); flex-shrink: 0; z-index: 50; height: 100vh; position: sticky; top: 0; }
+        .sidebar { width: 180px; background: linear-gradient(180deg, #0d3d4d 0%, #082830 100%); flex-shrink: 0; height: 100vh; position: sticky; top: 0; }
         .nav-item { padding: 16px 20px; font-size: 13px; border-left: 3px solid transparent; cursor: pointer; transition: 0.2s; color: rgba(255,255,255,0.7); }
-        .nav-item:hover { background: rgba(255,255,255,0.1); }
         .nav-item.active { background: rgba(0, 0, 0, 0.2); border-left-color: #00d4ff; color: #fff; font-weight: bold; }
         .main-content { flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: rgba(0, 0, 0, 0.8); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
         .step-tabs { display: flex; background: rgba(0, 0, 0, 0.6); padding: 0 20px; border-bottom: 1px solid #333; overflow-x: auto; }
-        .step-tab { padding: 14px 20px; font-size: 12px; color: #888; background: transparent; border: none; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
+        .step-tab { padding: 14px 20px; font-size: 11px; color: #888; background: transparent; border: none; cursor: pointer; text-transform: uppercase; white-space: nowrap; }
         .step-tab.active { color: #00d4ff; font-weight: bold; border-bottom: 2px solid #00d4ff; }
-        .content-area { padding: 30px; flex: 1; }
+        .content-area { padding: 30px; flex: 1; overflow-y: auto; }
         .glass-panel { background: rgba(20, 20, 25, 0.8); border: 1px solid #333; border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); }
         .stat-val { font-size: 28px; font-weight: 700; color: #00d4ff; font-family: 'Roboto Mono', monospace; }
         .step-content { display: none; }
-        .step-content.active { display: block; }
+        .step-content.active { display: block; animation: fadeIn 0.3s ease; }
         input, select { background: #1a1a1a; border: 1px solid #444; color: white; padding: 10px; border-radius: 6px; width: 100%; font-size: 14px; }
-        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 12px 30px; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 12px 30px; border-radius: 4px; cursor: pointer; text-transform: uppercase; font-size: 11px; }
         .toggle-btn { background: #222; color: #666; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 10px; font-weight: bold; }
         .toggle-btn.active { background: #00d4ff; color: #000; }
         .led-grid { display: grid; gap: 2px; background: #000; padding: 4px; border: 1px solid #00d4ff; }
         .led-p { width: 10px; height: 10px; background: #1a1a2e; border: 1px solid #222; }
-        @media print { .no-print { display: none !important; } body { background: #fff; color: #000; } .glass-panel { border: 1px solid #ddd; } .stat-val { color: #000; } .sidebar { display: none; } }
+        .table-pull { width: 100%; font-size: 13px; }
+        .table-pull th { text-align: left; color: #555; font-size: 10px; padding: 8px 0; border-bottom: 1px solid #222; }
+        .table-pull td { padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
+        @media print { .no-print { display: none !important; } .sidebar { display: none; } body { background: #fff; color: #000; } .glass-panel { border: 1px solid #ddd; } .stat-val { color: #000; } }
     </style>
 </head>
 <body>
 
     <nav class="sidebar hidden md:flex flex-col no-print">
         <div class="p-6 text-xl font-black italic tracking-tighter text-[#00d4ff]">LED PRO</div>
-        <div class="nav-item active" onclick="showSection('designer', this)">Live Designer</div>
-        <div class="nav-item" onclick="showSection('looming', this)">Looming</div>
+        <div class="nav-item active" id="side-designer" onclick="showSection('designer', this)">Live Designer</div>
+        <div class="nav-item" onclick="showSection('looming', this)">Cabling / Looming</div>
         <div class="nav-item" onclick="showSection('ballast', this)">Ballast Map</div>
         <div class="nav-item" onclick="showSection('truck', this)">Truck Pack</div>
-        <div class="nav-item" onclick="showSection('gearlist', this)">Pull Sheet</div>
-        <div class="mt-auto p-4 text-[9px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Version 10.0</div>
+        <div class="nav-item" onclick="showSection('gearlist', this)">Warehouse List</div>
+        <div class="mt-auto p-4 text-[9px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Version 11.0</div>
     </nav>
 
     <div class="main-content">
@@ -54,7 +57,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-[#00d4ff] text-2xl font-bold leading-none italic uppercase">Creative</div>
-                    <div class="text-[8px] tracking-[3px] text-gray-400">LOGISTICS ENGINE</div>
+                    <div class="text-[8px] tracking-[3px] text-gray-400 uppercase">LED Technician</div>
                 </div>
             </div>
         </header>
@@ -73,14 +76,14 @@
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                         <div class="lg:col-span-4 space-y-6">
                             <div class="glass-panel">
-                                <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Show Details</h2>
+                                <h2 class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2 font-bold">Project Details</h2>
                                 <div class="space-y-3">
                                     <input type="text" id="showName" placeholder="Show Name" oninput="calculate()">
                                     <input type="text" id="jobNumber" placeholder="Job Number" oninput="calculate()">
                                 </div>
                             </div>
                             <div class="glass-panel">
-                                <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2">Wall Hardware</h2>
+                                <h2 class="text-[10px] text-gray-500 uppercase tracking-widest mb-4 border-b border-gray-800 pb-2 font-bold">Configuration</h2>
                                 <div class="space-y-4">
                                     <div><label class="text-[10px] text-gray-500 uppercase font-bold">Category</label>
                                         <select id="prodCat" onchange="populateModels()">
@@ -94,10 +97,11 @@
                                     <div><label class="text-[10px] text-gray-500 uppercase font-bold">Model</label>
                                         <select id="prodModel" onchange="calculate()"></select>
                                     </div>
-                                    <div><label class="text-[10px] text-gray-500 uppercase font-bold">Rigging</label>
+                                    <div><label class="text-[10px] text-gray-500 uppercase font-bold">Rigging Type</label>
                                         <select id="installType" onchange="calculate()">
                                             <option value="hanging">Hanging (Flown)</option>
                                             <option value="ground">Ground Stacked</option>
+                                            <option value="wall">Wall Mounted</option>
                                         </select>
                                     </div>
                                     <div class="grid grid-cols-2 gap-4">
@@ -107,74 +111,143 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="lg:col-span-8 glass-panel flex flex-col justify-center items-center bg-black/30">
+                        <div class="lg:col-span-8 glass-panel flex flex-col justify-center items-center bg-black/40 min-h-[400px]">
                             <div id="outDim" class="text-2xl font-bold mb-6 text-[#00d4ff]">--</div>
                             <div id="visualGrid" class="led-grid"></div>
-                            <div class="mt-6 text-[10px] text-gray-500 tracking-[3px] uppercase" id="resTotalText">-- TOTAL TILES</div>
+                            <div class="mt-6 text-[10px] text-gray-500 tracking-[4px] uppercase" id="resTotalText">-- TOTAL TILES</div>
                         </div>
                     </div>
                 </div>
+
                 <div id="step-2" class="step-content">
-                    <div class="max-w-4xl mx-auto glass-panel text-center">
-                        <p class="text-gray-500 uppercase text-xs mb-4">Total Max Power Service</p>
-                        <div id="pwrMax" class="text-6xl font-bold text-orange-500 mb-2">--</div>
-                        <div class="text-xl font-bold text-white"><span id="pwrAmps">--</span> Amps per Phase (3P 208V)</div>
-                        <div class="mt-6 text-gray-500 italic" id="pwrBTU">-- BTU/hr Heat Generation</div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                        <div class="glass-panel text-center">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-4">Total Load (Peak)</p>
+                            <div id="pwrMax" class="stat-val text-orange-500">--</div><p class="text-xs text-gray-400">kW</p>
+                        </div>
+                        <div class="glass-panel text-center border-l-4 border-blue-500">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-4">US Amps (3P 208V)</p>
+                            <div id="pwrAmps" class="stat-val">--</div><p class="text-xs text-gray-400">Amps per Phase</p>
+                        </div>
+                        <div class="glass-panel text-center">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-4">Thermal (HVAC)</p>
+                            <div id="pwrBTU" class="stat-val">--</div><p class="text-xs text-gray-400">BTU / hr</p>
+                        </div>
                     </div>
                 </div>
+
                 <div id="step-3" class="step-content">
                     <div class="max-w-4xl mx-auto space-y-4">
-                         <div class="glass-panel flex justify-between items-center"><p class="font-bold">Brompton SX40 (4K)</p><div class="stat-val" id="procSX40" style="font-size: 20px;">--</div></div>
-                         <div class="glass-panel p-10 text-center"><p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Active Canvas Resolution</p><div id="resPx" class="text-4xl font-mono">--</div></div>
+                        <div class="glass-panel flex justify-between items-center p-6">
+                            <div><p class="font-bold text-lg">Brompton Tessera SX40 (4K)</p><p class="text-[10px] text-gray-500">8.2M PIXEL LIMIT</p></div>
+                            <div class="stat-val" id="procSX40" style="font-size: 20px;">-- Unit(s)</div>
+                        </div>
+                        <div class="glass-panel flex justify-between items-center p-6">
+                            <div><p class="font-bold text-lg">Brompton Tessera M2 (HD)</p><p class="text-[10px] text-gray-500">2.0M PIXEL LIMIT</p></div>
+                            <div class="stat-val" id="procM2" style="font-size: 20px;">-- Unit(s)</div>
+                        </div>
+                        <div class="glass-panel p-10 text-center">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-2">Total Canvas Size</p>
+                            <div id="resPx" class="text-5xl font-black text-white font-mono">--</div>
+                            <p id="resMP" class="text-blue-400 font-bold mt-2">-- Megapixels</p>
+                        </div>
                     </div>
                 </div>
+
                 <div id="step-4" class="step-content">
-                    <div id="summaryCard" class="max-w-5xl mx-auto glass-panel">
-                        <div class="flex justify-between border-b border-gray-800 pb-4 mb-6">
-                            <h2 class="text-2xl font-black italic text-[#00d4ff] uppercase" id="sumShow">--</h2>
-                            <span id="sumJob" class="text-gray-500 text-xs"></span>
+                    <div class="max-w-5xl mx-auto glass-panel">
+                        <div class="border-b border-zinc-800 pb-4 mb-8 flex justify-between">
+                            <h2 class="text-2xl font-black italic text-[#00d4ff] uppercase" id="sumShow">Technical Report</h2>
+                            <span id="sumJob" class="text-gray-500 text-xs self-center"></span>
                         </div>
                         <div class="grid grid-cols-3 gap-10">
-                            <div><p class="text-[10px] text-blue-400 font-bold uppercase mb-2">Structure</p><p id="sumMod" class="font-bold text-white">--</p><p id="sumWeight" class="text-xs text-gray-400">--</p><p id="sumCases" class="text-xs text-orange-400 font-bold mt-2">-- Cases</p></div>
-                            <div><p class="text-[10px] text-blue-400 font-bold uppercase mb-2">Electrical</p><p id="sumKW" class="font-bold text-white">-- kW</p><p id="sumAmps" class="text-xs text-gray-400">-- Amps (3P)</p></div>
-                            <div><p class="text-[10px] text-blue-400 font-bold uppercase mb-2">Safety</p><p id="sumBal" class="font-bold text-yellow-500">--</p></div>
+                            <div class="space-y-2">
+                                <p class="text-[10px] text-blue-400 font-bold uppercase">Structure</p>
+                                <p id="sumMod" class="text-lg font-bold">--</p>
+                                <p id="sumWeight" class="text-sm text-gray-400">--</p>
+                                <p id="sumCases" class="text-xs text-orange-400 font-bold">-- Cases Required</p>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-[10px] text-blue-400 font-bold uppercase">Electrical</p>
+                                <p id="sumKW" class="text-lg font-bold">-- kW</p>
+                                <p id="sumAmps" class="text-sm text-gray-400">-- Amps (3P)</p>
+                                <p id="sumCirc" class="text-sm text-gray-400">-- Socapex Circuits</p>
+                            </div>
+                            <div class="space-y-2">
+                                <p class="text-[10px] text-blue-400 font-bold uppercase">Engineering</p>
+                                <div class="flex justify-between text-xs"><span>Inst. Type:</span><span id="resInstall" class="font-bold uppercase text-white">--</span></div>
+                                <div class="flex justify-between text-xs"><span>Point Load:</span><span id="sumPoint" class="font-bold">--</span></div>
+                                <div class="flex justify-between text-xs"><span>Safety Ballast:</span><span id="sumBal" class="text-yellow-500 font-bold">--</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-looming" class="hidden">
+                <div class="max-w-4xl mx-auto glass-panel">
+                    <h2 class="text-xl font-bold mb-8 italic text-[#00d4ff] uppercase tracking-widest">Cable & Looming Plan</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="p-6 bg-black/40 rounded border border-zinc-800">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-4">Data Paths (Cat6 Ethercon)</p>
+                            <div class="flex justify-between mb-2"><span>Primary Home-Runs</span><span id="loomMain" class="font-bold text-white text-lg">--</span></div>
+                            <div class="flex justify-between mb-2 text-[#00d4ff]"><span>Redundant Backup Loops</span><span id="loomRed" class="font-bold text-lg">--</span></div>
+                            <p class="mt-6 text-[9px] text-gray-500 leading-relaxed italic">* Based on 650,000 pixels per 1G port bandwidth limit.</p>
+                        </div>
+                        <div class="p-6 bg-black/40 rounded border border-zinc-800">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-4">Power Paths (Socapex/Powercon)</p>
+                            <div class="flex justify-between mb-2"><span>19-Pin Socapex Looms</span><span id="loomSoca" class="font-bold text-white text-lg">--</span></div>
+                            <div class="flex justify-between mb-2"><span>Powercon True1 Jumpers</span><span id="loomJump" class="font-bold text-white text-lg">--</span></div>
+                            <p class="mt-6 text-[9px] text-gray-500 leading-relaxed italic">* Assumes safe 14-panel limit per 20A breakout circuit.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sec-ballast" class="hidden">
+                <div class="max-w-5xl mx-auto glass-panel text-center">
+                    <h2 class="text-xl font-bold mb-10 italic text-orange-500 uppercase tracking-widest">Ground-Stack Ballast Map</h2>
+                    <div class="flex justify-center items-end gap-3 mb-12" id="ballastVisual" style="min-height: 100px;"></div>
+                    <div class="grid grid-cols-2 gap-8 text-left">
+                        <div class="p-5 bg-zinc-900 rounded-lg border-l-4 border-zinc-700">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Distribution</p>
+                            <p class="text-sm">Ballast must be divided among <span id="ballastCols" class="text-white font-bold">--</span> column base-plates.</p>
+                        </div>
+                        <div class="p-5 bg-zinc-900 rounded-lg border-l-4 border-orange-500">
+                            <p class="text-[10px] text-gray-500 font-bold uppercase mb-1">Load per Base</p>
+                            <div id="ballastPerCol" class="text-3xl font-bold text-white">--</div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="sec-truck" class="hidden">
-                <div class="max-w-5xl mx-auto glass-panel">
-                    <h2 class="text-xl font-bold mb-8 italic text-[#00d4ff] uppercase tracking-widest">Truck Space Estimator</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div class="p-6 bg-zinc-900 rounded-lg text-center">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Required Floor Space</p>
-                            <div id="truckSqFt" class="stat-val">--</div>
-                            <p class="text-[10px] text-gray-400">Square Feet</p>
+                <div class="max-w-4xl mx-auto glass-panel">
+                    <h2 class="text-xl font-bold mb-8 italic text-[#00d4ff] uppercase tracking-widest">Logistics & Truck Space</h2>
+                    <div class="grid grid-cols-3 gap-6 text-center">
+                        <div class="p-6 bg-zinc-900 rounded">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Footprint</p>
+                            <div id="truckSqFt" class="text-3xl font-bold">--</div><p class="text-[10px] text-gray-500">Sq Ft</p>
                         </div>
-                        <div class="p-6 bg-zinc-900 rounded-lg text-center border-l-4 border-blue-500">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Trailer Capacity (90" Pack)</p>
-                            <div id="truckRows" class="stat-val">--</div>
-                            <p class="text-[10px] text-gray-400">Full Rows (Depth)</p>
+                        <div class="p-6 bg-zinc-900 rounded border-t-2 border-blue-500">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Truck Rows</p>
+                            <div id="truckRows" class="text-3xl font-bold text-[#00d4ff]">--</div><p class="text-[10px] text-gray-500">Rows @ 90"</p>
                         </div>
-                        <div class="p-6 bg-zinc-900 rounded-lg text-center">
-                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Total Logistics Weight</p>
-                            <div id="truckWeight" class="stat-val text-orange-400">--</div>
-                            <p class="text-[10px] text-gray-400" id="truckWeightUnit">Lbs</p>
+                        <div class="p-6 bg-zinc-900 rounded">
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Ship Weight</p>
+                            <div id="truckWeight" class="text-3xl font-bold text-orange-400">--</div><p class="text-[10px] text-gray-500" id="trWeightUnit">Lbs</p>
                         </div>
-                    </div>
-                    <div class="mt-8 p-4 bg-black/40 border border-zinc-800 rounded text-xs text-gray-500 italic">
-                        * Calculations assume tiles are packed in standard ROE flight cases or carts as per warehouse manifest.
                     </div>
                 </div>
             </div>
 
-            <div id="sec-looming" class="hidden"></div>
-            <div id="sec-ballast" class="hidden"></div>
             <div id="sec-gearlist" class="hidden">
-                 <div class="max-w-5xl mx-auto glass-panel">
-                    <h2 class="text-xl font-bold mb-6 italic uppercase">Warehouse Pull Manifest</h2>
-                    <table class="w-full text-sm text-left"><tbody id="gearRows" class="divide-y divide-zinc-900"></tbody></table>
+                <div class="max-w-5xl mx-auto glass-panel">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-black italic uppercase tracking-tight">Warehouse Pull Sheet</h2>
+                        <button class="btn-blue py-1 px-4" onclick="window.print()">Download Manifest</button>
+                    </div>
+                    <table class="table-pull"><thead id="pullHead"><tr><th>Item Description</th><th class="text-right">Qty Req</th></tr></thead><tbody id="gearRows"></tbody></table>
                 </div>
             </div>
 
@@ -194,13 +267,14 @@
                 { name: 'CB5 (5.7mm)', w: 600, h: 600, weight: 9.2, pMax: 210, pxW: 104, pxH: 104, perCase: 8, caseW: 30, caseD: 24 }
             ],
             pearl: [
-                { name: 'Black Pearl BP2 V2', w: 500, h: 500, weight: 8.8, pMax: 200, pxW: 176, pxH: 176, perCase: 8, caseW: 30, caseD: 24 }
+                { name: 'Black Pearl BP2 V2', w: 500, h: 500, weight: 8.8, pMax: 200, pxW: 176, pxH: 176, perCase: 8, caseW: 30, caseD: 24 },
+                { name: 'Black Onyx 3.4 V2', w: 500, h: 500, weight: 9.5, pMax: 220, pxW: 144, pxH: 144, perCase: 8, caseW: 30, caseD: 24 }
             ],
             ruby: [
                 { name: 'Ruby RB1.5 V2', w: 500, h: 500, weight: 8.0, pMax: 250, pxW: 320, pxH: 320, perCase: 10, caseW: 30, caseD: 24 }
             ],
             quartz: [
-                { name: 'Black Quartz 3.9 Full', w: 500, h: 1000, weight: 18.0, pMax: 450, pxW: 128, pxH: 256, perCase: 12, caseW: 48, caseD: 30 }
+                { name: 'BQ3.9 Full (1.0m)', w: 500, h: 1000, weight: 18.0, pMax: 450, pxW: 128, pxH: 256, perCase: 12, caseW: 48, caseD: 30 }
             ],
             floor: [
                 { name: 'Black Marble BM4', w: 609, h: 609, weight: 18.0, pMax: 200, pxW: 128, pxH: 128, perCase: 8, caseW: 48, caseD: 30 }
@@ -209,24 +283,24 @@
 
         let currentStep = 1;
         let unitMode = 'metric';
-        let currentSection = 'designer';
 
         function showSection(id, el) {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             el.classList.add('active');
-            document.getElementById('sec-designer').classList.toggle('hidden', id !== 'designer');
-            document.getElementById('sec-truck').classList.toggle('hidden', id !== 'truck');
-            document.getElementById('sec-gearlist').classList.toggle('hidden', id !== 'gearlist');
-            document.getElementById('designerTabs').style.display = id === 'designer' ? 'flex' : 'none';
-            document.getElementById('designerFooter').style.display = id === 'designer' ? 'flex' : 'none';
+            ['designer', 'looming', 'ballast', 'truck', 'gearlist'].forEach(sec => {
+                document.getElementById('sec-' + sec).classList.toggle('hidden', sec !== id);
+            });
+            document.getElementById('designerTabs').style.display = (id === 'designer') ? 'flex' : 'none';
+            document.getElementById('designerFooter').style.display = (id === 'designer') ? 'flex' : 'none';
+            document.getElementById('sectionHeader').innerText = id === 'designer' ? 'System Designer' : id.charAt(0).toUpperCase() + id.slice(1).replace('list',' List');
             calculate();
         }
 
         function populateModels() {
             const cat = document.getElementById('prodCat').value;
-            const select = document.getElementById('prodModel');
-            select.innerHTML = '';
-            inventory[cat].forEach((m, i) => { select.innerHTML += `<option value="${cat}|${i}">${m.name}</option>`; });
+            const sel = document.getElementById('prodModel');
+            sel.innerHTML = '';
+            inventory[cat].forEach((m, i) => { sel.innerHTML += `<option value="${cat}|${i}">${m.name}</option>`; });
             calculate();
         }
 
@@ -235,50 +309,75 @@
             const spec = inventory[val[0]][val[1]];
             const w = parseInt(document.getElementById('wQty').value) || 1;
             const h = parseInt(document.getElementById('hQty').value) || 1;
+            const install = document.getElementById('installType').value;
             const total = w * h;
 
-            const totalWeightKg = total * spec.weight;
-            const kw = (total * spec.pMax) / 1000;
-            const totalPx = (w * spec.pxW) * (h * spec.pxH);
+            const tWeightKg = total * spec.weight;
+            const tKW = (total * spec.pMax) / 1000;
+            const tPx = (w * spec.pxW) * (h * spec.pxH);
             const cases = Math.ceil(total / spec.perCase);
+            const ports = Math.ceil(tPx / 650000);
 
-            // Step Updates
-            document.getElementById('outDim').innerText = `${((w * spec.w)/1000).toFixed(1)}m x ${((h * spec.h)/1000).toFixed(1)}m`;
-            document.getElementById('resTotalText').innerText = `${total} TILES`;
-            document.getElementById('pwrMax').innerText = kw.toFixed(1);
-            document.getElementById('pwrAmps').innerText = Math.ceil((kw * 1000) / (208 * 1.73));
-            document.getElementById('pwrBTU').innerText = Math.round(kw * 3412).toLocaleString();
+            // UI designer
+            document.getElementById('outDim').innerText = unitMode === 'metric' ? `${((w*spec.w)/1000).toFixed(1)}m x ${((h*spec.h)/1000).toFixed(1)}m` : `${((w*spec.w)/1000*3.28).toFixed(1)}' x ${((h*spec.h)/1000*3.28).toFixed(1)}'`;
+            document.getElementById('resTotalText').innerText = `${total} TOTAL TILES`;
+            document.getElementById('pwrMax').innerText = tKW.toFixed(1);
+            document.getElementById('pwrAmps').innerText = Math.ceil((tKW * 1000) / (208 * 1.73));
+            document.getElementById('pwrBTU').innerText = Math.round(tKW * 3412).toLocaleString();
             document.getElementById('resPx').innerText = `${w * spec.pxW} x ${h * spec.pxH}`;
-            document.getElementById('procSX40').innerText = Math.ceil(totalPx / 8294400);
-            document.getElementById('procM2').innerText = Math.ceil(totalPx / 2073600);
+            document.getElementById('resMP').innerText = (tPx/1000000).toFixed(2) + " Megapixels";
+            document.getElementById('procSX40').innerText = Math.ceil(tPx / 8294400) + " Units";
+            document.getElementById('procM2').innerText = Math.ceil(tPx / 2073600) + " Units";
 
-            // Truck Pack Logic
-            const totalSqIn = cases * (spec.caseW * spec.caseD);
-            const sqFt = totalSqIn / 144;
+            // Looming
+            document.getElementById('loomMain').innerText = ports;
+            document.getElementById('loomRed').innerText = ports;
+            document.getElementById('loomSoca').innerText = Math.ceil(tKW / 3.5);
+            document.getElementById('loomJump').innerText = total + 10;
+
+            // Ballast
+            const ballastKg = install === 'ground' ? tWeightKg * 0.8 : 0;
+            document.getElementById('ballastCols').innerText = w;
+            document.getElementById('ballastPerCol').innerText = unitMode === 'metric' ? Math.round(ballastKg/w) + " kg" : Math.round((ballastKg*2.204)/w) + " lbs";
+            const bVis = document.getElementById('ballastVisual');
+            bVis.innerHTML = '';
+            for(let i=0; i<Math.min(w, 15); i++) {
+                const d = document.createElement('div');
+                d.className = 'w-6 bg-orange-500 rounded-t'; d.style.height = install === 'ground' ? '40px' : '2px';
+                bVis.appendChild(d);
+            }
+
+            // Truck
+            const sqFt = (cases * (spec.caseW * spec.caseD)) / 144;
             document.getElementById('truckSqFt').innerText = Math.round(sqFt);
-            document.getElementById('truckRows').innerText = (sqFt / 18.75).toFixed(1); // Standard row in 90" truck
-            const truckWeightLbs = Math.round(totalWeightKg * 2.204 + (cases * 80)); // Adding average empty case weight
-            document.getElementById('truckWeight').innerText = truckWeightLbs.toLocaleString();
+            document.getElementById('truckRows').innerText = (sqFt / 18.75).toFixed(1);
+            document.getElementById('truckWeight').innerText = unitMode === 'metric' ? Math.round(tWeightKg + (cases*40)).toLocaleString() : Math.round(tWeightKg*2.204 + (cases*85)).toLocaleString();
 
-            // Summary
-            document.getElementById('sumShow').innerText = document.getElementById('showName').value || "Final Technical Spec";
+            // Summary & Gear
+            document.getElementById('sumShow').innerText = document.getElementById('showName').value || "Technical Specification";
+            document.getElementById('sumJob').innerText = document.getElementById('jobNumber').value ? "JOB #" + document.getElementById('jobNumber').value : "";
             document.getElementById('sumMod').innerText = spec.name;
-            document.getElementById('sumWeight').innerText = unitMode === 'metric' ? Math.round(totalWeightKg) + " kg" : Math.round(totalWeightKg * 2.204) + " lbs";
-            document.getElementById('sumKW').innerText = kw.toFixed(1);
+            document.getElementById('sumWeight').innerText = unitMode === 'metric' ? Math.round(tWeightKg) + " kg" : Math.round(tWeightKg*2.204) + " lbs";
+            document.getElementById('sumKW').innerText = tKW.toFixed(1) + " kW";
+            document.getElementById('sumAmps').innerText = Math.ceil((tKW*1000)/(208*1.73)) + " (3P)";
+            document.getElementById('sumBal').innerText = unitMode === 'metric' ? Math.round(ballastKg) + " kg" : Math.round(ballastKg*2.204) + " lbs";
             document.getElementById('sumCases').innerText = cases;
-            
-            // Gear List
+            document.getElementById('resInstall').innerText = install;
+            document.getElementById('sumPoint').innerText = unitMode === 'metric' ? Math.round(tWeightKg/w) + " kg/col" : Math.round((tWeightKg*2.204)/w) + " lbs/col";
+
             document.getElementById('gearRows').innerHTML = `
-                <tr><td class="py-3"><b>${spec.name} LED Tile</b></td><td class="text-right">${total}</td></tr>
-                <tr><td class="py-3"><b>${spec.name} Flight Cases</b></td><td class="text-right">${cases}</td></tr>
-                <tr><td class="py-3">Brompton SX40 Processor</td><td class="text-right">${Math.ceil(totalPx/8294400)}</td></tr>
+                <tr><td><b>${spec.name} LED Tiles</b></td><td class="text-right font-bold">${total}</td></tr>
+                <tr><td><b>${spec.name} Travel Cases / Carts</b></td><td class="text-right font-bold text-[#00d4ff]">${cases}</td></tr>
+                <tr><td>Socapex to 6x Powercon TRUE1 Breakouts</td><td class="text-right">${Math.ceil(tKW/3.5)}</td></tr>
+                <tr><td>24 Port Gigabit Network Switch</td><td class="text-right">2</td></tr>
+                <tr><td>LED Control Laptop / Workbox</td><td class="text-right">1</td></tr>
             `;
 
             // Visual Grid
             const vGrid = document.getElementById('visualGrid');
-            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 20)}, 10px)`;
+            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 24)}, 12px)`;
             vGrid.innerHTML = '';
-            for(let i=0; i<Math.min(total, 200); i++) { vGrid.innerHTML += '<div class="led-p"></div>'; }
+            for(let i=0; i<Math.min(total, 400); i++) { vGrid.innerHTML += '<div class="led-p"></div>'; }
         }
 
         function goToStep(s) {
@@ -287,11 +386,12 @@
             document.querySelectorAll('.step-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(`step-${s}`).classList.add('active');
             document.getElementById(`tab${s}`).classList.add('active');
+            document.getElementById('mainNextBtn').innerText = s === 4 ? 'PRINT PDF' : 'NEXT STEP';
         }
 
         function nextStep() { if(currentStep < 4) goToStep(currentStep + 1); else window.print(); }
         function prevStep() { if(currentStep > 1) goToStep(currentStep - 1); }
-        function setUnits(m) { unitMode = m; calculate(); }
+        function setUnits(m) { unitMode = m; document.getElementById('btnMetric').classList.toggle('active', m==='metric'); document.getElementById('btnImperial').classList.toggle('active', m==='imperial'); calculate(); }
 
         window.onload = populateModels;
     </script>
