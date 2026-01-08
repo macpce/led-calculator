@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Pro-Suite Calculator</title>
+    <title>LED Pro-Suite V5.3 | Engineering & Logistics</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -16,264 +16,253 @@
         .step-tabs { display: flex; background: rgba(0, 0, 0, 0.6); padding: 0 20px; border-bottom: 1px solid #333; }
         .step-tab { padding: 14px 28px; font-size: 14px; color: #888; background: transparent; border: none; cursor: pointer; position: relative; }
         .step-tab.active { color: #00d4ff; font-weight: bold; }
-        .step-tab::after { content: '>'; position: absolute; right: 5px; color: #333; }
-        .step-tab:last-child::after { content: ''; }
         .content-area { flex: 1; padding: 40px; position: relative; }
         .glass-panel { background: rgba(20, 20, 25, 0.8); border: 1px solid #333; border-radius: 12px; padding: 30px; backdrop-filter: blur(10px); }
-        .led-grid { display: grid; gap: 2px; background: #000; padding: 4px; border: 1px solid #00d4ff; }
-        .led-p { width: 20px; height: 20px; background: #1a1a2e; border: 1px solid #333; }
         .stat-val { font-size: 32px; font-weight: 700; color: #00d4ff; }
         .step-content { display: none; }
         .step-content.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         input, select { background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; width: 100%; }
-        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 12px 30px; border-radius: 4px; transition: 0.2s; }
-        .btn-blue:hover { background: #00a8cc; transform: translateY(-2px); }
+        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 12px 30px; border-radius: 4px; transition: 0.2s; cursor: pointer; }
     </style>
 </head>
 <body class="flex">
 
-    <nav class="sidebar hidden md:flex flex-col min-h-screen">
-        <div class="p-6 text-xl font-bold italic tracking-tighter">PROJECTS</div>
-        <div class="nav-item active">Live Calc</div>
-        <div class="nav-item">History</div>
-        <div class="nav-item">Settings</div>
-        <div class="mt-auto p-4 text-[10px] text-gray-500 uppercase tracking-widest">Version 5.2</div>
+    <nav class="sidebar hidden md:flex flex-col min-h-screen no-print">
+        <div class="p-6 text-xl font-bold italic tracking-tighter text-[#00d4ff]">PRO SUITE</div>
+        <div class="nav-item active">Designer</div>
+        <div class="nav-item">Cabling</div>
+        <div class="nav-item">Inventory</div>
+        <div class="mt-auto p-4 text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Version 5.3 Build</div>
     </nav>
 
     <main class="flex-1 flex flex-col">
         <header class="header">
-            <h1 class="text-xl font-medium">LED System Designer</h1>
+            <h1 class="text-xl font-medium tracking-tight">System Specification Suite</h1>
             <div class="text-right">
                 <div class="text-[#00d4ff] text-2xl font-bold leading-none">CREATIVE</div>
-                <div class="text-[10px] tracking-[4px] text-gray-400">TECHNOLOGIES</div>
+                <div class="text-[10px] tracking-[4px] text-gray-400">LED TECHNICIAN</div>
             </div>
         </header>
 
         <div class="step-tabs no-print">
-            <button class="step-tab active" onclick="goToStep(1)">1. PRODUCT</button>
-            <button class="step-tab" onclick="goToStep(2)">2. DIMENSIONS</button>
-            <button class="step-tab" onclick="goToStep(3)">3. POWER</button>
-            <button class="step-tab" onclick="goToStep(4)">4. PROCESSING</button>
-            <button class="step-tab" onclick="goToStep(5)">5. SUMMARY</button>
+            <button class="step-tab active" id="tab1" onclick="goToStep(1)">1. HARDWARE</button>
+            <button class="step-tab" id="tab2" onclick="goToStep(2)">2. POWER/HVAC</button>
+            <button class="step-tab" id="tab3" onclick="goToStep(3)">3. SIGNAL/DATA</button>
+            <button class="step-tab" id="tab4" onclick="goToStep(4)">4. CABLING</button>
+            <button class="step-tab" id="tab5" onclick="goToStep(5)">5. SUMMARY</button>
         </div>
 
         <div class="content-area">
             
             <div id="step-1" class="step-content active">
-                <div class="max-w-xl mx-auto glass-panel">
-                    <h2 class="text-sm text-gray-400 uppercase tracking-widest mb-6">Select LED Hardware</h2>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="text-xs text-gray-500 block mb-2">PRODUCT FAMILY</label>
-                            <select id="prodFamily" onchange="updateVersions()">
-                                <option value="carbon">Carbon Series (Rental)</option>
-                                <option value="blackpearl">Black Pearl (Virtual Production)</option>
-                                <option value="vanish">Vanish (Transparent)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="text-xs text-gray-500 block mb-2">MODEL / PITCH</label>
-                            <select id="prodModel" onchange="calculate()">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-1 glass-panel">
+                        <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-800 pb-2">Wall Setup</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[10px] text-gray-500 block mb-1">PANEL MODEL</label>
+                                <select id="prodModel" onchange="calculate()">
+                                    <option value="BP2|2.8|176|176|9.2|220">Black Pearl BP2 V2</option>
+                                    <option value="CB5|5.7|86|86|8.5|180">Carbon CB5</option>
+                                    <option value="V8|8.9|56|112|12.0|240">Vanish V8S</option>
+                                    <option value="RB1|1.5|384|216|8.0|250">Ruby R1.5</option>
                                 </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-[10px] text-gray-500 block mb-1">WIDE</label>
+                                    <input type="number" id="wQty" value="12" oninput="calculate()">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] text-gray-500 block mb-1">HIGH</label>
+                                    <input type="number" id="hQty" value="7" oninput="calculate()">
+                                </div>
+                            </div>
                         </div>
-                        <button class="btn-blue w-full mt-6" onclick="goToStep(2)">Configure Dimensions</button>
+                    </div>
+                    <div class="lg:col-span-2 glass-panel flex flex-col justify-center items-center">
+                        <div id="outDim" class="text-xl font-bold mb-4 tracking-tighter">--</div>
+                        <div id="visualGrid" class="grid gap-1 bg-black p-2 border border-gray-700"></div>
                     </div>
                 </div>
             </div>
 
             <div id="step-2" class="step-content">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div class="glass-panel">
-                        <h2 class="text-xs text-gray-500 uppercase tracking-widest mb-6">Physical Configuration</h2>
-                        <div class="grid grid-cols-2 gap-4 mb-6">
-                            <div>
-                                <label class="text-xs text-gray-500 block mb-2">QTY WIDE</label>
-                                <input type="number" id="wPanels" value="12" oninput="calculate()">
-                            </div>
-                            <div>
-                                <label class="text-xs text-gray-500 block mb-2">QTY HIGH</label>
-                                <input type="number" id="hPanels" value="7" oninput="calculate()">
-                            </div>
-                        </div>
-                        <div class="space-y-4">
-                            <div class="flex justify-between border-b border-gray-800 pb-2">
-                                <span class="text-gray-400">Pixel Count</span>
-                                <span id="outPixels" class="font-mono text-[#00d4ff]">--</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-800 pb-2">
-                                <span class="text-gray-400">Physical Size</span>
-                                <span id="outMeters" class="font-mono text-white">--</span>
-                            </div>
-                            <div class="flex justify-between border-b border-gray-800 pb-2">
-                                <span class="text-gray-400">Total Weight</span>
-                                <span id="outWeight" class="font-mono text-white">--</span>
-                            </div>
-                        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="glass-panel text-center">
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">Maximum kW</p>
+                        <div id="pwrMax" class="stat-val text-orange-500">--</div>
                     </div>
-                    <div class="flex items-center justify-center bg-black/40 rounded-xl border border-gray-800 p-10">
-                        <div id="visualGrid" class="led-grid"></div>
+                    <div class="glass-panel text-center">
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">Total BTU/hr</p>
+                        <div id="pwrBTU" class="stat-val">--</div>
+                    </div>
+                    <div class="glass-panel text-center border-l-4 border-blue-500">
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">Amps @ 208V (3P)</p>
+                        <div id="pwrAmps" class="stat-val">--</div>
                     </div>
                 </div>
             </div>
 
             <div id="step-3" class="step-content">
-                <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="glass-panel text-center">
-                        <div class="text-xs text-gray-500 uppercase mb-2">Max Peak Draw</div>
-                        <div id="pwrMax" class="stat-val text-orange-500">--</div>
-                        <div class="text-gray-400 text-sm">kW</div>
-                    </div>
-                    <div class="glass-panel text-center border-l-4 border-blue-500">
-                        <div class="text-xs text-gray-500 uppercase mb-2">Amperage (@220V)</div>
-                        <div id="pwrAmps" class="stat-val">--</div>
-                        <div class="text-gray-400 text-sm">Amps (3-Phase)</div>
-                    </div>
-                    <div class="glass-panel text-center">
-                        <div class="text-xs text-gray-500 uppercase mb-2">Thermal Load</div>
-                        <div id="pwrBTU" class="stat-val">--</div>
-                        <div class="text-gray-400 text-sm">BTU / hr</div>
+                <div class="max-w-4xl mx-auto glass-panel">
+                    <h3 class="text-blue-400 font-bold mb-6 italic uppercase text-xs">Processor Requirements</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase mb-1">Total Resolution</p>
+                            <div id="resPx" class="text-3xl font-mono tracking-tighter">--</div>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase mb-1">Processor Load</p>
+                            <div id="resProc" class="text-3xl font-mono text-[#00d4ff]">--</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div id="step-4" class="step-content">
-                <div class="max-w-3xl mx-auto space-y-4">
-                    <div class="glass-panel flex justify-between items-center">
-                        <div>
-                            <div class="font-bold text-lg">Brompton Tessera SX40</div>
-                            <div class="text-xs text-gray-500 italic">4K Fiber Workflow</div>
+                <div class="max-w-4xl mx-auto glass-panel">
+                    <h3 class="text-white font-bold mb-6 border-b border-gray-800 pb-2 uppercase text-xs tracking-widest">Cable Pull List</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-[10px] text-blue-400 uppercase font-bold">Power Distribution</p>
+                                <div class="flex justify-between mt-2"><span class="text-sm">19-Pin Socapex Looms</span><span id="cblSoca" class="font-bold text-white">--</span></div>
+                                <div class="flex justify-between mt-1"><span class="text-sm">Break-Outs (Tail-sets)</span><span id="cblBO" class="font-bold text-white">--</span></div>
+                            </div>
                         </div>
-                        <div id="procSX40" class="px-4 py-1 rounded bg-green-900/30 text-green-400 border border-green-700">1 Unit</div>
-                    </div>
-                    <div class="glass-panel flex justify-between items-center">
-                        <div>
-                            <div class="font-bold text-lg">Novastar UHD Jr</div>
-                            <div class="text-xs text-gray-500 italic">Standard 4K Path</div>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-[10px] text-blue-400 uppercase font-bold">Data Distribution (Cat6)</p>
+                                <div class="flex justify-between mt-2"><span class="text-sm">Main Cat6 Home-Runs</span><span id="cblMain" class="font-bold text-white">--</span></div>
+                                <div class="flex justify-between mt-1"><span class="text-sm">Redundant Cat6 Loops</span><span id="cblRed" class="font-bold text-white">--</span></div>
+                            </div>
                         </div>
-                        <div id="procNova" class="px-4 py-1 rounded bg-green-900/30 text-green-400 border border-green-700">1 Unit</div>
                     </div>
                 </div>
             </div>
 
             <div id="step-5" class="step-content">
-                <div class="max-w-5xl mx-auto glass-panel">
-                    <div class="border-b border-gray-800 pb-4 mb-8 flex justify-between items-center">
-                        <h2 class="text-2xl font-bold">Technical Spec Report</h2>
-                        <button onclick="window.print()" class="text-[#00d4ff] text-sm hover:underline">Download PDF</button>
+                <div id="printArea" class="max-w-5xl mx-auto glass-panel">
+                    <div class="flex justify-between border-b border-gray-800 pb-4 mb-6">
+                        <h2 class="text-2xl font-bold uppercase italic tracking-tighter">Final Technical Spec</h2>
+                        <span class="text-gray-500 text-xs uppercase" id="printDate"></span>
                     </div>
-                    <div class="grid grid-cols-2 gap-12">
-                        <div class="space-y-4">
-                            <h3 class="text-blue-400 text-xs font-bold uppercase tracking-widest">Hardware Summary</h3>
-                            <div class="flex justify-between text-sm"><span>Selected Model</span><span id="resModel" class="text-white">--</span></div>
-                            <div class="flex justify-between text-sm"><span>Total Panel Count</span><span id="resTotal" class="text-white">--</span></div>
-                            <div class="flex justify-between text-sm"><span>Net System Weight</span><span id="resWeight" class="text-white">--</span></div>
-                            <div class="flex justify-between text-sm"><span>Min. Safety Ballast</span><span id="resBallast" class="text-yellow-500 font-bold">--</span></div>
+                    <div class="grid grid-cols-3 gap-8">
+                        <div>
+                            <p class="text-[10px] text-blue-400 uppercase mb-2">Hardware</p>
+                            <p id="sumMod" class="text-lg font-bold">--</p>
+                            <p id="sumTotal" class="text-sm text-gray-400">-- Panels</p>
+                            <p id="sumWeight" class="text-sm text-gray-400">-- kg</p>
                         </div>
-                        <div class="space-y-4">
-                            <h3 class="text-blue-400 text-xs font-bold uppercase tracking-widest">Signal Specs</h3>
-                            <div class="flex justify-between text-sm"><span>Resolution</span><span id="resPx" class="text-white">--</span></div>
-                            <div class="flex justify-between text-sm"><span>Aspect Ratio</span><span id="resAspect" class="text-white">--</span></div>
-                            <div class="flex justify-between text-sm"><span>Processing Units</span><span id="resProc" class="text-white">--</span></div>
+                        <div>
+                            <p class="text-[10px] text-blue-400 uppercase mb-2">Power</p>
+                            <p id="sumKW" class="text-lg font-bold">-- kW Max</p>
+                            <p id="sumAmps" class="text-sm text-gray-400">-- Amps (3P)</p>
+                            <p id="sumCirc" class="text-sm text-gray-400">-- Circuits</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-blue-400 uppercase mb-2">Processing</p>
+                            <p id="sumPx" class="text-lg font-bold">-- px</p>
+                            <p id="sumCables" class="text-sm text-gray-400">-- Data Home Runs</p>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <footer class="mt-auto border-t border-gray-900 bg-black/80 p-6 flex justify-end gap-4 no-print">
-            <button class="px-8 py-2 rounded border border-gray-700 hover:bg-gray-800 transition" onclick="prevStep()">BACK</button>
-            <button class="btn-blue" id="mainNextBtn" onclick="nextStep()">NEXT STEP</button>
+            <button class="px-8 py-2 rounded border border-gray-700 hover:bg-gray-800 transition uppercase text-xs" onclick="prevStep()">BACK</button>
+            <button class="btn-blue uppercase text-xs" id="mainNextBtn" onclick="nextStep()">NEXT STEP</button>
         </footer>
     </main>
 
     <script>
-        const db = {
-            carbon: [
-                { id: 'cb3', name: 'CB3', pitch: 3.4, weight: 8.8, pMax: 200, px: 144 },
-                { id: 'cb5', name: 'CB5', pitch: 5.7, weight: 8.5, pMax: 180, px: 86 }
-            ],
-            blackpearl: [
-                { id: 'bp2', name: 'BP2 V2', pitch: 2.8, weight: 9.2, pMax: 220, px: 176 },
-                { id: 'bp3', name: 'BP3', pitch: 3.9, weight: 9.0, pMax: 200, px: 128 }
-            ],
-            vanish: [
-                { id: 'v8', name: 'V8 Transparent', pitch: 8.9, weight: 6.5, pMax: 160, px: 56 }
-            ]
-        };
-
         let step = 1;
-
-        function updateVersions() {
-            const family = document.getElementById('prodFamily').value;
-            const modelSelect = document.getElementById('prodModel');
-            modelSelect.innerHTML = '';
-            db[family].forEach(m => {
-                modelSelect.innerHTML += `<option value="${m.id}">${m.name} (${m.pitch}mm)</option>`;
-            });
-            calculate();
-        }
-
-        function calculate() {
-            const family = document.getElementById('prodFamily').value;
-            const modelId = document.getElementById('prodModel').value;
-            const spec = db[family].find(m => m.id === modelId);
-            
-            const w = parseInt(document.getElementById('wPanels').value) || 1;
-            const h = parseInt(document.getElementById('hPanels').value) || 1;
-            const total = w * h;
-
-            // Physical
-            const totalWeight = total * spec.weight;
-            document.getElementById('outPixels').innerText = `${w * spec.px} × ${h * spec.px}`;
-            document.getElementById('outMeters').innerText = `${(w * 0.5).toFixed(1)}m × ${(h * 0.5).toFixed(1)}m`;
-            document.getElementById('outWeight').innerText = `${totalWeight.toFixed(0)} kg`;
-
-            // Power
-            const kw = (total * spec.pMax) / 1000;
-            document.getElementById('pwrMax').innerText = kw.toFixed(1);
-            document.getElementById('pwrAmps').innerText = Math.ceil((kw * 1000) / (220 * 1.73)).toFixed(0);
-            document.getElementById('pwrBTU').innerText = (kw * 3412).toLocaleString();
-
-            // Processing
-            const totalPx = (w * spec.px) * (h * spec.px);
-            const units = Math.ceil(totalPx / 8000000); // 8MP limit for 4K
-            document.getElementById('procSX40').innerText = `${units} Unit${units>1?'s':''}`;
-            document.getElementById('procNova').innerText = `${units} Unit${units>1?'s':''}`;
-
-            // Summary
-            document.getElementById('resModel').innerText = spec.name;
-            document.getElementById('resTotal').innerText = total;
-            document.getElementById('resWeight').innerText = `${totalWeight.toFixed(0)} kg`;
-            document.getElementById('resBallast').innerText = `${Math.ceil(totalWeight * 0.4)} kg`;
-            document.getElementById('resPx').innerText = `${w * spec.px} × ${h * spec.px}`;
-            document.getElementById('resAspect').innerText = (w/h).toFixed(2) + ':1';
-            document.getElementById('resProc').innerText = `${units} × 4K Units`;
-
-            // Visual Grid
-            const grid = document.getElementById('visualGrid');
-            grid.style.gridTemplateColumns = `repeat(${Math.min(w, 15)}, 20px)`;
-            grid.innerHTML = '';
-            for(let i=0; i < Math.min(total, 150); i++) {
-                grid.innerHTML += '<div class="led-p"></div>';
-            }
-        }
 
         function goToStep(s) {
             step = s;
             document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.step-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(`step-${s}`).classList.add('active');
-            document.querySelectorAll('.step-tab')[s-1].classList.add('active');
-            
-            document.getElementById('mainNextBtn').innerText = s === 5 ? 'FINISH' : 'NEXT STEP';
+            document.getElementById(`tab${s}`).classList.add('active');
+            document.getElementById('mainNextBtn').innerText = s === 5 ? 'PRINT REPORT' : 'NEXT STEP';
+            calculate();
         }
 
-        function nextStep() { if(step < 5) goToStep(step + 1); }
+        function nextStep() { if(step < 5) { goToStep(step + 1); } else { window.print(); } }
         function prevStep() { if(step > 1) goToStep(step - 1); }
 
-        window.onload = updateVersions;
+        function calculate() {
+            const val = document.getElementById('prodModel').value.split('|');
+            const w = parseInt(document.getElementById('wQty').value) || 1;
+            const h = parseInt(document.getElementById('hQty').value) || 1;
+            const total = w * h;
+
+            const name = val[0];
+            const pxPer = parseInt(val[2]);
+            const weightPer = parseFloat(val[4]);
+            const pwrPer = parseInt(val[5]);
+
+            // Physical
+            document.getElementById('outDim').innerText = `${(w*0.5).toFixed(1)}m x ${(h*0.5).toFixed(1)}m`;
+            const totalWeight = total * weightPer;
+            
+            // Power
+            const kw = (total * pwrPer) / 1000;
+            const amps = (kw * 1000) / (208 * 1.73);
+            const btu = kw * 3412;
+
+            // Signal
+            const tPxW = w * pxPer;
+            const tPxH = h * (val[0] === 'V8' ? parseInt(val[3]) : pxPer);
+            const totalPixels = tPxW * tPxH;
+            const portCount = Math.ceil(totalPixels / 600000);
+
+            // Cabling (Professional logic)
+            // Socapex: 1 per 6 circuits. 1 circuit = 3.5kW max. 
+            const circNeeded = Math.ceil(kw / 3.5);
+            const socaNeeded = Math.ceil(circNeeded / 6);
+
+            // Update UI
+            if(document.getElementById('pwrMax')) {
+                document.getElementById('pwrMax').innerText = kw.toFixed(1);
+                document.getElementById('pwrBTU').innerText = Math.round(btu).toLocaleString();
+                document.getElementById('pwrAmps').innerText = Math.ceil(amps);
+                
+                document.getElementById('resPx').innerText = `${tPxW} x ${tPxH}`;
+                document.getElementById('resProc').innerText = Math.ceil(totalPixels / 8000000) + " x 4K Unit(s)";
+                
+                document.getElementById('cblSoca').innerText = socaNeeded;
+                document.getElementById('cblBO').innerText = socaNeeded;
+                document.getElementById('cblMain').innerText = portCount;
+                document.getElementById('cblRed').innerText = portCount; // Redundant backup loops
+            }
+
+            // Summary
+            document.getElementById('sumMod').innerText = name;
+            document.getElementById('sumTotal').innerText = total;
+            document.getElementById('sumWeight').innerText = Math.round(totalWeight);
+            document.getElementById('sumKW').innerText = kw.toFixed(1);
+            document.getElementById('sumAmps').innerText = Math.ceil(amps);
+            document.getElementById('sumCirc').innerText = circNeeded;
+            document.getElementById('sumPx').innerText = `${tPxW}x${tPxH}`;
+            document.getElementById('sumCables').innerText = portCount;
+            document.getElementById('printDate').innerText = new Date().toDateString();
+
+            // Visual Grid
+            const vGrid = document.getElementById('visualGrid');
+            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 20)}, 10px)`;
+            vGrid.innerHTML = '';
+            for(let i=0; i < Math.min(total, 400); i++) {
+                const div = document.createElement('div');
+                div.style.width = '10px'; div.style.height = '10px'; div.style.background = '#1a1a2e';
+                vGrid.appendChild(div);
+            }
+        }
+
+        window.onload = calculate;
     </script>
 </body>
 </html>
