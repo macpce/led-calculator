@@ -1,2 +1,166 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LED Pro Suite | Project Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --roe-blue: #00a0e9; --dark-bg: #0a0a0c; --card-bg: #16161a; }
+        body { background-color: var(--dark-bg); color: #e4e4e7; font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-btn { padding: 10px 15px; border-bottom: 2px solid transparent; cursor: pointer; color: #71717a; font-size: 0.875rem; }
+        .nav-btn.active { border-bottom: 2px solid var(--roe-blue); color: var(--roe-blue); font-weight: bold; }
+        input, select { background: #27272a; border: 1px solid #3f3f46; color: white; padding: 10px; border-radius: 6px; width: 100%; }
+        .result-box { background: #1c1c21; border: 1px solid #27272a; padding: 1.5rem; border-radius: 12px; }
+        .library-item { background: #27272a; padding: 10px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .library-item:hover { background: #3f3f46; }
+        @media print { .no-print { display: none; } body { background: white; color: black; } }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-6xl mx-auto">
+        <header class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-black italic tracking-tighter uppercase">LED PRO <span class="text-[#00a0e9]">SUITE</span></h1>
+            <div class="no-print space-x-4">
+                <button onclick="saveToLibrary()" class="bg-green-600 hover:bg-green-500 text-white text-xs font-bold py-2 px-4 rounded">Save to Library</button>
+                <button onclick="clearCurrent()" class="text-zinc-500 text-xs hover:text-white">New Project</button>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <div class="lg:col-span-1 space-y-6 no-print">
+                <div class="result-box">
+                    <h2 class="text-blue-400 font-bold mb-4 uppercase text-[10px] tracking-widest">Configuration</h2>
+                    <label class="text-[10px] text-zinc-500 uppercase">Panel Model</label>
+                    <select id="panel" onchange="calculate()">
+                        <option value="BP2V2|2.8|176|176|9.2|400">Black Pearl BP2V2</option>
+                        <option value="R1|1.5|320|320|7.5|350">Ruby R1.5</option>
+                        <option value="CB5|5.7|88|176|12.5|650">Carbon CB5</option>
+                    </select>
+                    <div class="grid grid-cols-2 gap-3 mt-4">
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase">Wide</label>
+                            <input type="number" id="w-qty" value="12" oninput="calculate()">
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase">High</label>
+                            <input type="number" id="h-qty" value="8" oninput="calculate()">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <h2 class="text-zinc-400 font-bold mb-4 uppercase text-[10px] tracking-widest">Project Library</h2>
+                    <div id="library-list" class="max-h-64 overflow-y-auto text-xs">
+                        </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-3">
+                <div class="flex space-x-4 mb-6 border-b border-zinc-800 no-print">
+                    <div class="nav-btn active" onclick="switchTab('physical', this)">Physical</div>
+                    <div class="nav-btn" onclick="switchTab('power', this)">Power</div>
+                    <div class="nav-btn" onclick="switchTab('data', this)">Data</div>
+                </div>
+
+                <div id="physical" class="tab-content active space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="result-box text-center">
+                            <p class="text-zinc-500 text-[10px] uppercase">Dimensions</p>
+                            <p id="res-dim" class="text-xl font-bold">--</p>
+                        </div>
+                        <div class="result-box text-center">
+                            <p class="text-zinc-500 text-[10px] uppercase">Total Panels</p>
+                            <p id="res-total" class="text-xl font-bold text-blue-400">--</p>
+                        </div>
+                        <div class="result-box text-center">
+                            <p class="text-zinc-500 text-[10px] uppercase">Net Weight</p>
+                            <p id="res-weight" class="text-xl font-bold">--</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="power" class="tab-content">...</div>
+                <div id="data" class="tab-content">...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentProjectName = "Untitled Project";
+
+        function calculate() {
+            const data = document.getElementById('panel').value.split('|');
+            const w = parseInt(document.getElementById('w-qty').value) || 0;
+            const h = parseInt(document.getElementById('h-qty').value) || 0;
+            
+            // Perform all standard calcs...
+            document.getElementById('res-dim').innerText = `${(w*0.5).toFixed(1)}m x ${(h*0.5).toFixed(1)}m`;
+            document.getElementById('res-total').innerText = w * h;
+            document.getElementById('res-weight').innerText = (w * h * parseFloat(data[4])).toFixed(1) + "kg";
+        }
+
+        function saveToLibrary() {
+            const name = prompt("Enter project name:", currentProjectName);
+            if (!name) return;
+
+            const project = {
+                name: name,
+                panel: document.getElementById('panel').value,
+                w: document.getElementById('w-qty').value,
+                h: document.getElementById('h-qty').value,
+                date: new Date().toLocaleDateString()
+            };
+
+            let library = JSON.parse(localStorage.getItem('roe_library') || '[]');
+            library.push(project);
+            localStorage.setItem('roe_library', JSON.stringify(library));
+            renderLibrary();
+        }
+
+        function renderLibrary() {
+            const container = document.getElementById('library-list');
+            const library = JSON.parse(localStorage.getItem('roe_library') || '[]');
+            container.innerHTML = library.length ? '' : '<p class="text-zinc-600">No saved projects.</p>';
+            
+            library.forEach((proj, index) => {
+                const div = document.createElement('div');
+                div.className = 'library-item';
+                div.innerHTML = `
+                    <div>
+                        <p class="font-bold">${proj.name}</p>
+                        <p class="text-[10px] text-zinc-500">${proj.date}</p>
+                    </div>
+                    <button onclick="deleteProject(${index})" class="text-red-500 text-lg">&times;</button>
+                `;
+                div.onclick = (e) => {
+                    if(e.target.tagName !== 'BUTTON') loadProject(index);
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function loadProject(index) {
+            const library = JSON.parse(localStorage.getItem('roe_library'));
+            const proj = library[index];
+            document.getElementById('panel').value = proj.panel;
+            document.getElementById('w-qty').value = proj.w;
+            document.getElementById('h-qty').value = proj.h;
+            calculate();
+        }
+
+        function deleteProject(index) {
+            let library = JSON.parse(localStorage.getItem('roe_library'));
+            library.splice(index, 1);
+            localStorage.setItem('roe_library', JSON.stringify(library));
+            renderLibrary();
+        }
+
+        window.onload = () => { renderLibrary(); calculate(); };
+    </script>
+</body>
+</html>
