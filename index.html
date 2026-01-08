@@ -3,52 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Pro-Suite V5.4 | US & Metric Engineering</title>
+    <title>LED Pro-Suite V6.1 | Inventory Integrated</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Roboto', sans-serif; background: #0a0a0a; color: #ffffff; min-height: 100vh; overflow-x: hidden; }
         .sidebar { width: 180px; background: linear-gradient(180deg, #0d3d4d 0%, #082830 100%); flex-shrink: 0; }
-        .nav-item { padding: 16px 20px; font-size: 14px; border-left: 3px solid transparent; cursor: pointer; transition: 0.2s; }
-        .nav-item.active { background: rgba(0, 0, 0, 0.2); border-left-color: #00d4ff; }
+        .nav-item { padding: 16px 20px; font-size: 13px; border-left: 3px solid transparent; cursor: pointer; transition: 0.2s; color: rgba(255,255,255,0.7); }
+        .nav-item.active { background: rgba(0, 0, 0, 0.2); border-left-color: #00d4ff; color: #fff; font-weight: bold; }
         .header { background: rgba(0, 0, 0, 0.8); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
-        .step-tabs { display: flex; background: rgba(0, 0, 0, 0.6); padding: 0 20px; border-bottom: 1px solid #333; }
-        .step-tab { padding: 14px 28px; font-size: 14px; color: #888; background: transparent; border: none; cursor: pointer; position: relative; }
+        .step-tabs { display: flex; background: rgba(0, 0, 0, 0.6); padding: 0 20px; border-bottom: 1px solid #333; overflow-x: auto; }
+        .step-tab { padding: 14px 24px; font-size: 13px; color: #888; background: transparent; border: none; cursor: pointer; position: relative; white-space: nowrap; }
         .step-tab.active { color: #00d4ff; font-weight: bold; }
-        .content-area { flex: 1; padding: 40px; position: relative; }
-        .glass-panel { background: rgba(20, 20, 25, 0.8); border: 1px solid #333; border-radius: 12px; padding: 30px; backdrop-filter: blur(10px); }
-        .stat-val { font-size: 32px; font-weight: 700; color: #00d4ff; }
+        .content-area { flex: 1; padding: 30px; position: relative; }
+        .glass-panel { background: rgba(20, 20, 25, 0.8); border: 1px solid #333; border-radius: 12px; padding: 25px; backdrop-filter: blur(10px); }
+        .stat-val { font-size: 28px; font-weight: 700; color: #00d4ff; }
         .step-content { display: none; }
         .step-content.active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        input, select { background: #1a1a1a; border: 1px solid #444; color: white; padding: 12px; border-radius: 6px; width: 100%; }
-        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 12px 30px; border-radius: 4px; transition: 0.2s; cursor: pointer; }
-        .toggle-btn { background: #222; color: #666; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.3s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        input, select { background: #1a1a1a; border: 1px solid #444; color: white; padding: 10px; border-radius: 6px; width: 100%; font-size: 14px; }
+        .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 10px 25px; border-radius: 4px; transition: 0.2s; cursor: pointer; text-transform: uppercase; font-size: 12px; }
+        .toggle-btn { background: #222; color: #666; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.3s; }
         .toggle-btn.active { background: #00d4ff; color: #000; }
+        @media print { .no-print { display: none !important; } .glass-panel { border: 1px solid #000; color: #000; } .stat-val { color: #000; } body { background: #fff; } }
     </style>
 </head>
 <body class="flex">
 
     <nav class="sidebar hidden md:flex flex-col min-h-screen no-print">
         <div class="p-6 text-xl font-bold italic tracking-tighter text-[#00d4ff]">PRO SUITE</div>
-        <div class="nav-item active">Designer</div>
-        <div class="nav-item">Cabling</div>
-        <div class="nav-item">Inventory</div>
-        <div class="mt-auto p-4 text-[10px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Version 5.4 US-INT</div>
+        <div class="nav-item active" onclick="location.reload()">Designer</div>
+        <div class="nav-item">Pull List</div>
+        <div class="mt-auto p-4 text-[9px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Warehouse V6.1</div>
     </nav>
 
     <main class="flex-1 flex flex-col">
         <header class="header">
-            <h1 class="text-xl font-medium tracking-tight">System Specification Suite</h1>
+            <h1 class="text-lg font-medium tracking-tight">System Specification Suite</h1>
             <div class="flex items-center gap-4">
                 <div class="flex bg-zinc-900 rounded-full p-1 no-print">
                     <button id="btnMetric" class="toggle-btn active" onclick="setUnits('metric')">METRIC</button>
-                    <button id="btnImperial" class="toggle-btn" onclick="setUnits('imperial')">IMPERIAL</button>
+                    <button id="btnImperial" class="toggle-btn" onclick="setUnits('imperial')">US STD</button>
                 </div>
                 <div class="text-right">
-                    <div class="text-[#00d4ff] text-2xl font-bold leading-none uppercase">Creative</div>
-                    <div class="text-[10px] tracking-[4px] text-gray-400">LED TECHNICIAN</div>
+                    <div class="text-[#00d4ff] text-xl font-bold leading-none uppercase italic">Creative</div>
+                    <div class="text-[8px] tracking-[3px] text-gray-400">LED LOGISTICS</div>
                 </div>
             </div>
         </header>
@@ -56,43 +56,45 @@
         <div class="step-tabs no-print">
             <button class="step-tab active" id="tab1" onclick="goToStep(1)">1. HARDWARE</button>
             <button class="step-tab" id="tab2" onclick="goToStep(2)">2. POWER/HVAC</button>
-            <button class="step-tab" id="tab3" onclick="goToStep(3)">3. SIGNAL/DATA</button>
-            <button class="step-tab" id="tab4" onclick="goToStep(4)">4. CABLING</button>
+            <button class="step-tab" id="tab3" onclick="goToStep(3)">3. PROCESSING</button>
+            <button class="step-tab" id="tab4" onclick="goToStep(4)">4. PULL LIST</button>
             <button class="step-tab" id="tab5" onclick="goToStep(5)">5. SUMMARY</button>
         </div>
 
         <div class="content-area">
-            
             <div id="step-1" class="step-content active">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-1 glass-panel">
-                        <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-800 pb-2">Wall Setup</h2>
+                        <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-800 pb-2">Inventory Setup</h2>
                         <div class="space-y-4">
                             <div>
-                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Panel Model</label>
-                                <select id="prodModel" onchange="calculate()">
-                                    <option value="BP2|2.8|176|176|9.2|220">Black Pearl BP2 V2</option>
-                                    <option value="CB5|5.7|86|86|8.5|180">Carbon CB5</option>
-                                    <option value="V8|8.9|56|112|12.0|240">Vanish V8S</option>
-                                    <option value="RB1|1.5|384|216|8.0|250">Ruby R1.5</option>
+                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Product Category</label>
+                                <select id="prodCat" onchange="populateModels()">
+                                    <option value="carbon">Carbon Series (CB3/CB5)</option>
+                                    <option value="pearl">Black Pearl / Onyx</option>
+                                    <option value="ruby">Ruby / Sapphire</option>
+                                    <option value="quartz">Black Quartz</option>
+                                    <option value="graphite">ROE Graphite</option>
+                                    <option value="vanish">Vanish Transparent</option>
+                                    <option value="floor">Black Marble Floor</option>
+                                    <option value="aoto">AOTO Displays</option>
                                 </select>
                             </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Specific Model</label>
+                                <select id="prodModel" onchange="calculate()">
+                                    </select>
+                            </div>
                             <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty Wide</label>
-                                    <input type="number" id="wQty" value="12" oninput="calculate()">
-                                </div>
-                                <div>
-                                    <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty High</label>
-                                    <input type="number" id="hQty" value="7" oninput="calculate()">
-                                </div>
+                                <div><label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty Wide</label><input type="number" id="wQty" value="12" oninput="calculate()"></div>
+                                <div><label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty High</label><input type="number" id="hQty" value="7" oninput="calculate()"></div>
                             </div>
                         </div>
                     </div>
                     <div class="lg:col-span-2 glass-panel flex flex-col justify-center items-center relative">
                         <div id="outDim" class="text-xl font-bold mb-4 tracking-tighter">--</div>
                         <div id="visualGrid" class="grid gap-1 bg-black p-2 border border-gray-700"></div>
-                        <div class="mt-4 text-[10px] text-zinc-500 uppercase tracking-widest" id="resTotalText">-- TOTAL PANELS</div>
+                        <div class="mt-4 text-[10px] text-zinc-500 uppercase tracking-widest" id="resTotalText">-- TOTAL TILES</div>
                     </div>
                 </div>
             </div>
@@ -100,84 +102,54 @@
             <div id="step-2" class="step-content">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="glass-panel text-center">
-                        <p class="text-[10px] text-gray-500 uppercase mb-2">Maximum Load</p>
-                        <div id="pwrMax" class="stat-val text-orange-500">--</div>
-                        <p class="text-[10px] text-gray-500">kW</p>
-                    </div>
-                    <div class="glass-panel text-center">
-                        <p class="text-[10px] text-gray-500 uppercase mb-2">Thermal Output</p>
-                        <div id="pwrBTU" class="stat-val">--</div>
-                        <p class="text-[10px] text-gray-500">BTU / hr</p>
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">Maximum Peak</p>
+                        <div id="pwrMax" class="stat-val text-orange-500">--</div><p class="text-[10px] text-gray-500">kW</p>
                     </div>
                     <div class="glass-panel text-center border-l-4 border-blue-500">
                         <p class="text-[10px] text-gray-500 uppercase mb-2">Amps @ 208V (US 3P)</p>
                         <div id="pwrAmps" class="stat-val">--</div>
                         <p class="text-[10px] text-gray-500 font-bold uppercase">Per Phase</p>
                     </div>
-                </div>
-            </div>
-
-            <div id="step-3" class="step-content">
-                <div class="max-w-4xl mx-auto glass-panel">
-                    <h3 class="text-blue-400 font-bold mb-6 italic uppercase text-xs">Processor Requirements</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div>
-                            <p class="text-[10px] text-gray-500 uppercase mb-1">Active Pixel Canvas</p>
-                            <div id="resPx" class="text-3xl font-mono tracking-tighter">--</div>
-                        </div>
-                        <div>
-                            <p class="text-[10px] text-gray-500 uppercase mb-1">Canvas MP Count</p>
-                            <div id="resMP" class="text-3xl font-mono text-[#00d4ff]">--</div>
-                        </div>
-                    </div>
+                    <div class="glass-panel text-center"><p class="text-[10px] text-gray-500 uppercase mb-2">Thermal Output</p><div id="pwrBTU" class="stat-val">--</div><p class="text-[10px] text-gray-500">BTU / hr</p></div>
                 </div>
             </div>
 
             <div id="step-4" class="step-content">
                 <div class="max-w-4xl mx-auto glass-panel">
-                    <h3 class="text-white font-bold mb-6 border-b border-gray-800 pb-2 uppercase text-xs tracking-widest">American Tech Pull List</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                        <div class="space-y-6">
-                            <div>
-                                <p class="text-[10px] text-blue-400 uppercase font-bold">Power Racking</p>
-                                <div class="flex justify-between mt-2"><span class="text-sm">US Socapex Looms</span><span id="cblSoca" class="font-bold text-white">--</span></div>
-                                <div class="flex justify-between mt-1"><span class="text-sm">Powercon Jumpers</span><span id="cblJump" class="font-bold text-white">--</span></div>
-                            </div>
-                        </div>
-                        <div class="space-y-6">
-                            <div>
-                                <p class="text-[10px] text-blue-400 uppercase font-bold">Data Management</p>
-                                <div class="flex justify-between mt-2"><span class="text-sm">Cat6 Home-Runs</span><span id="cblMain" class="font-bold text-white">--</span></div>
-                                <div class="flex justify-between mt-1"><span class="text-sm">Redundant Strings</span><span id="cblRed" class="font-bold text-white">--</span></div>
-                            </div>
-                        </div>
-                    </div>
+                    <h3 class="text-white font-bold mb-6 border-b border-gray-800 pb-2 uppercase text-xs tracking-widest">Warehouse Equipment Pull</h3>
+                    <table class="w-full text-left text-sm">
+                        <tbody class="divide-y divide-zinc-800">
+                            <tr><td class="py-3 text-zinc-400">Socapex to 6x Powercon TRUE1</td><td id="invSoca" class="py-3 text-right font-bold">--</td></tr>
+                            <tr><td class="py-3 text-zinc-400">Cat6 Ethercon Home-Runs</td><td id="invCat6" class="py-3 text-right font-bold text-blue-400">--</td></tr>
+                            <tr><td class="py-3 text-zinc-400">LED Control Laptop / Workbox</td><td class="py-3 text-right font-bold">1</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
             <div id="step-5" class="step-content">
                 <div id="printArea" class="max-w-5xl mx-auto glass-panel">
                     <div class="flex justify-between border-b border-gray-800 pb-4 mb-6">
-                        <h2 class="text-2xl font-bold uppercase italic tracking-tighter">Technical Spec Sheet</h2>
-                        <span class="text-gray-500 text-xs uppercase" id="printDate"></span>
+                        <h2 class="text-xl font-bold uppercase italic tracking-tighter">Technical Specification</h2>
+                        <span class="text-gray-500 text-[10px] uppercase" id="printDate"></span>
                     </div>
                     <div class="grid grid-cols-3 gap-8">
-                        <div>
-                            <p class="text-[10px] text-blue-400 uppercase mb-2 font-bold">Physical</p>
-                            <p id="sumMod" class="text-lg font-bold">--</p>
-                            <p id="sumTotal" class="text-sm text-gray-400">-- Panels</p>
-                            <p id="sumWeight" class="text-sm text-gray-400 font-bold">--</p>
+                        <div class="space-y-1">
+                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Physical</p>
+                            <p id="sumMod" class="text-sm font-bold text-white">--</p>
+                            <p id="sumTotal" class="text-xs text-gray-400">-- Tiles</p>
+                            <p id="sumWeight" class="text-xs text-white font-bold">--</p>
                         </div>
-                        <div>
-                            <p class="text-[10px] text-blue-400 uppercase mb-2 font-bold">Electrical</p>
-                            <p id="sumKW" class="text-lg font-bold">-- kW</p>
-                            <p id="sumAmps" class="text-sm text-gray-400">-- Amps (3P)</p>
-                            <p id="sumCirc" class="text-sm text-gray-400">-- Circuits (US)</p>
+                        <div class="space-y-1">
+                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Electrical</p>
+                            <p id="sumKW" class="text-sm font-bold text-white">-- kW</p>
+                            <p id="sumAmps" class="text-xs text-gray-400">-- Amps (3P)</p>
+                            <p id="sumCirc" class="text-xs text-gray-400">-- Circuits</p>
                         </div>
-                        <div>
-                            <p class="text-[10px] text-blue-400 uppercase mb-2 font-bold">Engineering</p>
-                            <p id="sumPx" class="text-lg font-bold font-mono leading-none">--</p>
-                            <p id="sumArea" class="text-sm text-gray-400 mt-2">-- Area</p>
+                        <div class="space-y-1">
+                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Logistics</p>
+                            <p id="sumPx" class="text-sm font-bold font-mono text-white">--</p>
+                            <p id="sumPorts" class="text-xs text-gray-400">-- Data Home-Runs</p>
                         </div>
                     </div>
                 </div>
@@ -185,14 +157,59 @@
         </div>
 
         <footer class="mt-auto border-t border-gray-900 bg-black/80 p-6 flex justify-end gap-4 no-print">
-            <button class="px-8 py-2 rounded border border-gray-700 hover:bg-gray-800 transition uppercase text-xs" onclick="prevStep()">BACK</button>
-            <button class="btn-blue uppercase text-xs" id="mainNextBtn" onclick="nextStep()">NEXT STEP</button>
+            <button class="px-8 py-2 rounded border border-gray-700 hover:bg-gray-800 transition uppercase text-[10px] font-bold" onclick="prevStep()">BACK</button>
+            <button class="btn-blue" id="mainNextBtn" onclick="nextStep()">NEXT STEP</button>
         </footer>
     </main>
 
     <script>
+        const inventory = {
+            carbon: [
+                { name: 'CB3 Full (120x60cm) [Brompton]', w: 1200, h: 600, weight: 19.5, pMax: 450, pxW: 346, pxH: 173 },
+                { name: 'CB3 Half (60x60cm) [Brompton]', w: 600, h: 600, weight: 9.8, pMax: 220, pxW: 173, pxH: 173 },
+                { name: 'CB5 (5.7mm) [Brompton]', w: 600, h: 600, weight: 9.2, pMax: 210, pxW: 104, pxH: 104 },
+                { name: 'CB4 (4.4mm) [Brompton]', w: 600, h: 600, weight: 9.5, pMax: 200, pxW: 136, pxH: 136 }
+            ],
+            pearl: [
+                { name: 'BP2 V2 (2.8mm) [Brompton]', w: 500, h: 500, weight: 8.8, pMax: 200, pxW: 176, pxH: 176 },
+                { name: 'BO3.4 V2 (3.4mm) [Brompton]', w: 500, h: 500, weight: 9.5, pMax: 220, pxW: 144, pxH: 144 }
+            ],
+            ruby: [
+                { name: 'Ruby RB1.5 V2 [Helios]', w: 500, h: 500, weight: 8.0, pMax: 250, pxW: 320, pxH: 320 },
+                { name: 'Sapphire 1.5mm [Helios]', w: 500, h: 250, weight: 4.5, pMax: 120, pxW: 333, pxH: 166 }
+            ],
+            quartz: [
+                { name: 'Black Quartz 3.9 Full (0.5x1m)', w: 500, h: 1000, weight: 18.0, pMax: 450, pxW: 128, pxH: 256 },
+                { name: 'Black Quartz 3.9 Half (0.5x0.5m)', w: 500, h: 500, weight: 9.0, pMax: 225, pxW: 128, pxH: 128 }
+            ],
+            graphite: [
+                { name: 'Graphite 2.6 Full (0.5x1m)', w: 500, h: 1000, weight: 14.0, pMax: 340, pxW: 192, pxH: 384 },
+                { name: 'Graphite 2.6 Half (0.5x0.5m)', w: 500, h: 500, weight: 7.0, pMax: 170, pxW: 192, pxH: 192 }
+            ],
+            vanish: [
+                { name: 'Vanish V8S (1x1m)', w: 1000, h: 1000, weight: 13.0, pMax: 300, pxW: 112, pxH: 112 }
+            ],
+            floor: [
+                { name: 'Black Marble BM4 (60x60cm)', w: 609, h: 609, weight: 18.0, pMax: 200, pxW: 128, pxH: 128 },
+                { name: 'INFiLED Floor 5.9', w: 500, h: 500, weight: 9.0, pMax: 200, pxW: 84, pxH: 84 }
+            ],
+            aoto: [
+                { name: 'AOTO M3.5 Display', w: 500, h: 500, weight: 8.5, pMax: 200, pxW: 144, pxH: 144 }
+            ]
+        };
+
         let step = 1;
-        let unitMode = 'metric'; // 'metric' or 'imperial'
+        let unitMode = 'metric';
+
+        function populateModels() {
+            const cat = document.getElementById('prodCat').value;
+            const modelSelect = document.getElementById('prodModel');
+            modelSelect.innerHTML = '';
+            inventory[cat].forEach((m, i) => {
+                modelSelect.innerHTML += `<option value="${cat}|${i}">${m.name}</option>`;
+            });
+            calculate();
+        }
 
         function setUnits(mode) {
             unitMode = mode;
@@ -201,104 +218,65 @@
             calculate();
         }
 
+        function calculate() {
+            const val = document.getElementById('prodModel').value.split('|');
+            const spec = inventory[val[0]][val[1]];
+            const w = parseInt(document.getElementById('wQty').value) || 1;
+            const h = parseInt(document.getElementById('hQty').value) || 1;
+            const total = w * h;
+
+            const totalWeightKg = total * spec.weight;
+            const widthM = (w * spec.w) / 1000;
+            const heightM = (h * spec.h) / 1000;
+            
+            // US Conversions
+            const widthFt = widthM * 3.28;
+            const heightFt = heightM * 3.28;
+            const weightLbs = totalWeightKg * 2.204;
+
+            document.getElementById('outDim').innerText = unitMode === 'metric' ? `${widthM.toFixed(1)}m x ${heightM.toFixed(1)}m` : `${widthFt.toFixed(1)}' x ${heightFt.toFixed(1)}'`;
+            document.getElementById('resTotalText').innerText = `${total} TOTAL TILES`;
+
+            const kw = (total * spec.pMax) / 1000;
+            document.getElementById('pwrMax').innerText = kw.toFixed(1);
+            document.getElementById('pwrBTU').innerText = Math.round(kw * 3412).toLocaleString();
+            document.getElementById('pwrAmps').innerText = Math.ceil((kw * 1000) / (208 * 1.73));
+
+            const totalPx = (w * spec.pxW) * (h * spec.pxH);
+            const ports = Math.ceil(totalPx / 600000);
+
+            document.getElementById('invSoca').innerText = Math.ceil(total / 84);
+            document.getElementById('invCat6').innerText = ports;
+
+            document.getElementById('sumMod').innerText = spec.name;
+            document.getElementById('sumTotal').innerText = `${total} Tiles`;
+            document.getElementById('sumWeight').innerText = unitMode === 'metric' ? `${totalWeightKg.toFixed(0)} kg` : `${Math.round(weightLbs)} lbs`;
+            document.getElementById('sumKW').innerText = kw.toFixed(1);
+            document.getElementById('sumPx').innerText = `${w * spec.pxW} x ${h * spec.pxH}`;
+            document.getElementById('printDate').innerText = new Date().toDateString();
+
+            const vGrid = document.getElementById('visualGrid');
+            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 20)}, 8px)`;
+            vGrid.innerHTML = '';
+            for(let i=0; i < Math.min(total, 400); i++) {
+                const div = document.createElement('div');
+                div.style.width = '8px'; div.style.height = '8px'; div.style.background = '#1a1a2e';
+                vGrid.appendChild(div);
+            }
+        }
+
         function goToStep(s) {
             step = s;
             document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.step-tab').forEach(t => t.classList.remove('active'));
             document.getElementById(`step-${s}`).classList.add('active');
             document.getElementById(`tab${s}`).classList.add('active');
-            document.getElementById('mainNextBtn').innerText = s === 5 ? 'PRINT REPORT' : 'NEXT STEP';
-            calculate();
         }
 
         function nextStep() { if(step < 5) { goToStep(step + 1); } else { window.print(); } }
         function prevStep() { if(step > 1) goToStep(step - 1); }
 
-        function calculate() {
-            const val = document.getElementById('prodModel').value.split('|');
-            const w = parseInt(document.getElementById('wQty').value) || 1;
-            const h = parseInt(document.getElementById('hQty').value) || 1;
-            const total = w * h;
-
-            const pxW = parseInt(val[2]);
-            const pxH = parseInt(val[3]);
-            const weightKg = parseFloat(val[4]);
-            const powerW = parseInt(val[5]);
-
-            // Dimensions conversion
-            let dimText = '';
-            let weightText = '';
-            let areaText = '';
-            
-            const totalWeightKg = total * weightKg;
-            const widthM = w * 0.5;
-            const heightM = h * 0.5;
-            const areaM2 = widthM * heightM;
-
-            if (unitMode === 'imperial') {
-                const widthFt = widthM * 3.28084;
-                const heightFt = heightM * 3.28084;
-                const weightLbs = totalWeightKg * 2.20462;
-                const areaFt2 = areaM2 * 10.7639;
-                dimText = `${widthFt.toFixed(1)}' x ${heightFt.toFixed(1)}'`;
-                weightText = `${Math.round(weightLbs)} lbs`;
-                areaText = `${Math.round(areaFt2)} sq ft`;
-            } else {
-                dimText = `${widthM.toFixed(1)}m x ${heightM.toFixed(1)}m`;
-                weightText = `${totalWeightKg.toFixed(1)} kg`;
-                areaText = `${areaM2.toFixed(1)} m²`;
-            }
-
-            // Power logic (US 3-Phase 208V)
-            const kw = (total * powerW) / 1000;
-            const ampsPerPhase = (kw * 1000) / (208 * 1.732);
-            const btu = kw * 3412;
-
-            // Signal logic
-            const totalPx = (w * pxW) * (h * pxH);
-            const ports = Math.ceil(totalPx / 650000);
-
-            // Update UI
-            document.getElementById('outDim').innerText = dimText;
-            document.getElementById('resTotalText').innerText = `${total} TOTAL PANELS`;
-            
-            if(document.getElementById('pwrMax')) {
-                document.getElementById('pwrMax').innerText = kw.toFixed(1);
-                document.getElementById('pwrBTU').innerText = Math.round(btu).toLocaleString();
-                document.getElementById('pwrAmps').innerText = Math.ceil(ampsPerPhase);
-                
-                document.getElementById('resPx').innerText = `${(w*pxW)} x ${(h*pxH)}`;
-                document.getElementById('resMP').innerText = (totalPx / 1000000).toFixed(2) + " MP";
-                
-                document.getElementById('cblSoca').innerText = Math.ceil(total / 84); // 14 panels * 6 circuits
-                document.getElementById('cblJump').innerText = total + 5;
-                document.getElementById('cblMain').innerText = ports;
-                document.getElementById('cblRed').innerText = ports;
-            }
-
-            // Summary
-            document.getElementById('sumMod').innerText = val[0];
-            document.getElementById('sumTotal').innerText = `${total} Panels`;
-            document.getElementById('sumWeight').innerText = weightText;
-            document.getElementById('sumKW').innerText = kw.toFixed(1);
-            document.getElementById('sumAmps').innerText = Math.ceil(ampsPerPhase);
-            document.getElementById('sumCirc').innerText = Math.ceil(total / 14);
-            document.getElementById('sumPx').innerText = `${(w*pxW)} x ${(h*pxH)}`;
-            document.getElementById('sumArea').innerText = areaText;
-            document.getElementById('printDate').innerText = new Date().toDateString();
-
-            // Visual Grid
-            const vGrid = document.getElementById('visualGrid');
-            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 20)}, 10px)`;
-            vGrid.innerHTML = '';
-            for(let i=0; i < Math.min(total, 400); i++) {
-                const div = document.createElement('div');
-                div.style.width = '10px'; div.style.height = '10px'; div.style.background = '#1a1a2e';
-                vGrid.appendChild(div);
-            }
-        }
-
-        window.onload = calculate;
+        window.onload = populateModels;
     </script>
 </body>
 </html>
