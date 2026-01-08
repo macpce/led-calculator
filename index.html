@@ -3,88 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Pro Suite | Engineering Tool</title>
+    <title>LED System Calculator | Professional Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root { --roe-blue: #00a0e9; --dark-bg: #0a0a0c; --card-bg: #16161a; }
-        body { background-color: var(--dark-bg); color: #e4e4e7; font-family: sans-serif; }
+        body { background-color: var(--dark-bg); color: #e4e4e7; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .input-group { background: var(--card-bg); border: 1px solid #27272a; padding: 1.5rem; border-radius: 12px; }
+        .stat-card { background: #1c1c21; border-left: 4px solid var(--roe-blue); padding: 1.25rem; border-radius: 8px; }
+        input, select { background: #27272a; border: 1px solid #3f3f46; color: white; padding: 10px; border-radius: 6px; width: 100%; transition: 0.2s; }
+        input:focus { border-color: var(--roe-blue); outline: none; }
+        .nav-btn { padding: 14px 20px; border-bottom: 2px solid transparent; cursor: pointer; color: #71717a; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; transition: 0.3s; }
+        .nav-btn.active { border-bottom: 2px solid var(--roe-blue); color: var(--roe-blue); }
         .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .nav-btn { padding: 12px; cursor: pointer; color: #71717a; border-bottom: 2px solid transparent; }
-        .nav-btn.active { border-bottom: 2px solid var(--roe-blue); color: var(--roe-blue); font-weight: bold; }
-        input, select { background: #27272a; border: 1px solid #3f3f46; color: white; padding: 8px; border-radius: 6px; width: 100%; }
-        .result-box { background: #1c1c21; border: 1px solid #27272a; padding: 1.5rem; border-radius: 12px; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @media print { .no-print { display: none; } body { background: white; color: black; } .stat-card { border: 1px solid #ddd; } }
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-8 border-b border-zinc-800 pb-4">
-            <h1 class="text-2xl font-black italic tracking-tighter uppercase">LED PRO <span class="text-[#00a0e9]">SUITE</span></h1>
-            <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded text-xs font-bold uppercase">Print Report</button>
+
+    <div class="max-w-7xl mx-auto">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 pb-6 border-b border-zinc-800">
+            <div>
+                <h1 class="text-4xl font-black tracking-tighter italic uppercase text-white">LED <span class="text-[#00a0e9]">SYSTEMS</span></h1>
+                <p class="text-zinc-500 text-xs tracking-[0.2em] font-bold uppercase mt-1">Technical Specification Suite</p>
+            </div>
+            <div class="no-print flex gap-4 mt-4 md:mt-0">
+                <button onclick="saveProject()" class="bg-[#00a0e9] hover:bg-blue-500 text-white text-xs font-bold py-3 px-6 rounded-full transition shadow-lg shadow-blue-900/20">SAVE PROJECT</button>
+                <button onclick="window.print()" class="border border-zinc-700 text-white text-xs font-bold py-3 px-6 rounded-full hover:bg-zinc-800 transition">EXPORT PDF</button>
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
-            <div class="lg:col-span-1 space-y-6">
-                <div class="result-box">
-                    <h2 class="text-blue-400 font-bold mb-4 uppercase text-[10px]">Setup</h2>
-                    <label class="text-[10px] text-zinc-500 uppercase">Panel</label>
-                    <select id="panel" onchange="calc()">
-                        <option value="9.2|400|176|176">Black Pearl BP2V2</option>
-                        <option value="12.5|650|88|176">Carbon CB5</option>
-                        <option value="9.0|550|104|104">Vanish V4</option>
-                    </select>
-                    <div class="grid grid-cols-2 gap-4 mt-4">
-                        <div><label class="text-[10px] text-zinc-500">Wide</label><input type="number" id="w" value="10" oninput="calc()"></div>
-                        <div><label class="text-[10px] text-zinc-500">High</label><input type="number" id="h" value="6" oninput="calc()"></div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <div class="lg:col-span-4 space-y-6 no-print">
+                <div class="input-group">
+                    <h3 class="text-[#00a0e9] font-bold text-xs uppercase tracking-widest mb-6">Wall Configuration</h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="text-[10px] text-zinc-500 uppercase font-bold">Product Model</label>
+                            <select id="panel" onchange="runCalculation()">
+                                <option value="BP2V2|2.8|176|176|9.2|400">Black Pearl BP2V2</option>
+                                <option value="CB5|5.7|88|176|12.5|650">Carbon CB5</option>
+                                <option value="DM2.6|2.6|192|192|8.1|480">Diamond DM2.6</option>
+                                <option value="V4|4.8|104|104|9.0|550">Vanish V4</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-[10px] text-zinc-500 uppercase font-bold">Panels Wide</label>
+                                <input type="number" id="w-qty" value="12" oninput="runCalculation()">
+                            </div>
+                            <div>
+                                <label class="text-[10px] text-zinc-500 uppercase font-bold">Panels High</label>
+                                <input type="number" id="h-qty" value="8" oninput="runCalculation()">
+                            </div>
+                        </div>
                     </div>
+                </div>
+
+                <div class="input-group">
+                    <h3 class="text-zinc-500 font-bold text-xs uppercase tracking-widest mb-4">Saved Library</h3>
+                    <div id="lib-container" class="space-y-2 max-h-60 overflow-y-auto pr-2">
+                        </div>
                 </div>
             </div>
 
-            <div class="lg:col-span-3 space-y-6">
-                <div class="flex border-b border-zinc-800 mb-4">
-                    <div class="nav-btn active" onclick="tab('p', this)">Physical</div>
-                    <div class="nav-btn" onclick="tab('l', this)">Logistics</div>
+            <div class="lg:col-span-8 space-y-8">
+                
+                <nav class="flex border-b border-zinc-800 no-print overflow-x-auto">
+                    <div class="nav-btn active" onclick="switchTab('phys', this)">Physical</div>
+                    <div class="nav-btn" onclick="switchTab('pwr', this)">Power & Heat</div>
+                    <div class="nav-btn" onclick="switchTab('sig', this)">Signal Map</div>
+                    <div class="nav-btn" onclick="switchTab('inv', this)">Cable List</div>
+                </nav>
+
+                <div id="phys" class="tab-content active space-y-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="stat-card">
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold">Total Panels</p>
+                            <p id="out-total" class="text-3xl font-mono text-white mt-1">--</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold">Total Weight</p>
+                            <p id="out-weight" class="text-3xl font-mono text-white mt-1">--</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold">Dimensions</p>
+                            <p id="out-dim" class="text-lg font-bold text-[#00a0e9] mt-1 leading-tight">--</p>
+                        </div>
+                        <div class="stat-card">
+                            <p class="text-[10px] text-zinc-500 uppercase font-bold">Surface Area</p>
+                            <p id="out-sqm" class="text-2xl font-mono mt-1">--</p>
+                        </div>
+                    </div>
+                    [Image of an LED wall structural diagram showing framing and floor support ballast requirements]
                 </div>
 
-                <div id="p" class="tab-content active grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="result-box text-center"><p class="text-zinc-500 text-[10px]">TOTAL WEIGHT</p><p id="out-w" class="text-2xl font-bold">--</p></div>
-                    <div class="result-box text-center"><p class="text-zinc-500 text-[10px]">TOTAL PANELS</p><p id="out-t" class="text-2xl font-bold text-blue-400">--</p></div>
-                    <div class="result-box text-center"><p class="text-zinc-500 text-[10px]">PIXELS</p><p id="out-px" class="text-lg font-bold">--</p></div>
-                </div>
-
-                <div id="l" class="tab-content space-y-4">
-                    <div class="result-box">
-                        <h3 class="text-sm font-bold mb-4">Estimated Cable Inventory</h3>
-                        <p class="text-sm">Power Circuits: <span id="out-circ" class="font-bold text-blue-400">--</span></p>
-                        <p class="text-sm">Data Home Runs: <span id="out-data" class="font-bold text-blue-400">--</span></p>
+                <div id="pwr" class="tab-content space-y-6">
+                    <div class="input-group">
+                        <h4 class="text-orange-500 font-bold text-sm mb-4 uppercase">Electrical Load Analysis</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <p class="text-zinc-500 text-[10px] uppercase">Peak (100% White)</p>
+                                <p id="out-p-max" class="text-2xl font-mono font-bold">--</p>
+                            </div>
+                            <div>
+                                <p class="text-zinc-500 text-[10px] uppercase">Avg (Show Content)</p>
+                                <p id="out-p-avg" class="text-2xl font-mono text-zinc-400">--</p>
+                            </div>
+                            <div>
+                                <p class="text-zinc-500 text-[10px] uppercase">Heat Dissipation</p>
+                                <p id="out-btu" class="text-2xl font-mono">--</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <div id="sig" class="tab-content space-y-6">
+                    <div class="input-group text-center py-10">
+                        <p class="text-zinc-500 text-[10px] uppercase tracking-widest mb-2">Active Pixel Canvas</p>
+                        <p id="out-pixels" class="text-5xl font-black text-white font-mono tracking-tighter">--</p>
+                        <div class="mt-8 flex justify-center gap-10">
+                            <div>
+                                <p class="text-zinc-500 text-[10px] uppercase">Aspect Ratio</p>
+                                <p id="out-aspect" class="font-bold">--</p>
+                            </div>
+                            <div>
+                                <p class="text-zinc-500 text-[10px] uppercase">Port Capacity</p>
+                                <p id="out-ports" class="font-bold">--</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="inv" class="tab-content space-y-6">
+                    <div class="input-group">
+                        <table class="w-full text-left">
+                            <thead class="border-b border-zinc-800 text-[10px] text-zinc-500 uppercase">
+                                <tr><th class="py-4">Required Infrastructure</th><th class="py-4 text-right">Quantity</th></tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800 text-sm" id="cable-list">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script>
-        function tab(t, e) {
-            document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(x => x.classList.remove('active'));
-            document.getElementById(t).classList.add('active');
-            e.classList.add('active');
+        function switchTab(id, el) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            el.classList.add('active');
         }
 
-        function calc() {
-            const d = document.getElementById('panel').value.split('|');
-            const w = parseInt(document.getElementById('w').value) || 0;
-            const h = parseInt(document.getElementById('h').value) || 0;
+        function runCalculation() {
+            const data = document.getElementById('panel').value.split('|');
+            const w = parseInt(document.getElementById('w-qty').value) || 0;
+            const h = parseInt(document.getElementById('h-qty').value) || 0;
+            
+            const pWeight = parseFloat(data[4]);
+            const pPower = parseFloat(data[5]);
+            const pW_px = parseInt(data[2]);
+            const pH_px = parseInt(data[3]);
             const total = w * h;
 
-            document.getElementById('out-w').innerText = (total * parseFloat(d[0])).toFixed(0) + "kg";
-            document.getElementById('out-t').innerText = total;
-            document.getElementById('out-px').innerText = (w * d[2]) + "x" + (h * d[3]);
+            // Physical Logic
+            document.getElementById('out-total').innerText = total;
+            document.getElementById('out-weight').innerText = (total * pWeight).toFixed(1) + " kg";
+            document.getElementById('out-dim').innerText = `${(w*0.5).toFixed(1)}m x ${(h*0.5).toFixed(1)}m`;
+            document.getElementById('out-sqm').innerText = (total * 0.25).toFixed(2) + " m²";
+
+            // Power Logic
+            const kwMax = (total * pPower) / 1000;
+            document.getElementById('out-p-max').innerText = kwMax.toFixed(1) + " kW";
+            document.getElementById('out-p-avg').innerText = (kwMax * 0.35).toFixed(1) + " kW";
+            document.getElementById('out-btu').innerText = Math.round(kwMax * 3412).toLocaleString() + " BTU";
+
+            // Signal Logic
+            const pixW = w * pW_px;
+            const pixH = h * pH_px;
+            document.getElementById('out-pixels').innerText = `${pixW} x ${pixH}`;
+            document.getElementById('out-aspect').innerText = (pixW/pixH).toFixed(2) + ":1";
+            document.getElementById('out-ports').innerText = Math.ceil((pixW * pixH) / 600000) + " Ports";
+
+            // Cable Logic
+            const cables = [
+                ["Socapex 19-pin Looms (75ft)", Math.ceil(total/72)],
+                ["Powercon True1 Jumpers", total + 5],
+                ["Cat6 Ethercon Home-Runs", Math.ceil((pixW * pixH) / 600000)],
+                ["Cat6 Ethercon Jumpers", total + 5]
+            ];
             
-            document.getElementById('out-circ').innerText = Math.ceil(total / 12);
-            document.getElementById('out-data').innerText = Math.ceil((w*d[2]*h*d[3]) / 500000);
+            let cableHtml = '';
+            cables.forEach(c => {
+                cableHtml += `<tr><td class="py-4 text-zinc-400 font-medium">${c[0]}</td><td class="py-4 text-right font-mono font-bold text-[#00a0e9]">${c[1]}</td></tr>`;
+            });
+            document.getElementById('cable-list').innerHTML = cableHtml;
+            
+            // Auto-save local draft
+            localStorage.setItem('led_last_draft', JSON.stringify({w, h, p: document.getElementById('panel').value}));
         }
-        window.onload = calc;
+
+        function saveProject() {
+            const name = prompt("Enter Project Name:");
+            if (!name) return;
+            const project = { name, w: document.getElementById('w-qty').value, h: document.getElementById('h-qty').value, p: document.getElementById('panel').value, date: new Date().toLocaleDateString() };
+            let lib = JSON.parse(localStorage.getItem('led_library') || '[]');
+            lib.push(project);
+            localStorage.setItem('led_library', JSON.stringify(lib));
+            renderLibrary();
+        }
+
+        function renderLibrary() {
+            const lib = JSON.parse(localStorage.getItem('led_library') || '[]');
+            const container = document.getElementById('lib-container');
+            container.innerHTML = lib.length ? '' : '<p class="text-zinc-600 text-xs italic">No saved projects found.</p>';
+            lib.forEach((proj, i) => {
+                container.innerHTML += `
+                <div class="bg-zinc-900/50 p-3 rounded border border-zinc-800 flex justify-between items-center group">
+                    <div onclick="loadProject(${i})" class="cursor-pointer">
+                        <p class="text-white font-bold text-xs uppercase tracking-tight">${proj.name}</p>
+                        <p class="text-[9px] text-zinc-600">${proj.date}</p>
+                    </div>
+                    <button onclick="deleteProject(${i})" class="text-zinc-700 hover:text-red-500 text-lg">&times;</button>
+                </div>`;
+            });
+        }
+
+        function loadProject(i) {
+            const lib = JSON.parse(localStorage.getItem('led_library'));
+            const p = lib[i];
+            document.getElementById('panel').value = p.p;
+            document.getElementById('w-qty').value = p.w;
+            document.getElementById('h-qty').value = p.h;
+            runCalculation();
+        }
+
+        function deleteProject(i) {
+            let lib = JSON.parse(localStorage.getItem('led_library'));
+            lib.splice(i, 1);
+            localStorage.setItem('led_library', JSON.stringify(lib));
+            renderLibrary();
+        }
+
+        window.onload = () => {
+            const draft = JSON.parse(localStorage.getItem('led_last_draft'));
+            if(draft) {
+                document.getElementById('panel').value = draft.p;
+                document.getElementById('w-qty').value = draft.w;
+                document.getElementById('h-qty').value = draft.h;
+            }
+            runCalculation();
+            renderLibrary();
+        };
     </script>
 </body>
 </html>
