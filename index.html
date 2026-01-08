@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LED Pro-Suite V6.1 | Inventory Integrated</title>
+    <title>LED Pro-Suite V6.2 | Professional Engineering</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -26,6 +26,8 @@
         .btn-blue { background: #00d4ff; color: #000; font-weight: bold; padding: 10px 25px; border-radius: 4px; transition: 0.2s; cursor: pointer; text-transform: uppercase; font-size: 12px; }
         .toggle-btn { background: #222; color: #666; padding: 6px 16px; border-radius: 20px; cursor: pointer; font-size: 10px; font-weight: bold; transition: 0.3s; }
         .toggle-btn.active { background: #00d4ff; color: #000; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .badge-ok { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid #166534; }
         @media print { .no-print { display: none !important; } .glass-panel { border: 1px solid #000; color: #000; } .stat-val { color: #000; } body { background: #fff; } }
     </style>
 </head>
@@ -35,7 +37,7 @@
         <div class="p-6 text-xl font-bold italic tracking-tighter text-[#00d4ff]">PRO SUITE</div>
         <div class="nav-item active" onclick="location.reload()">Designer</div>
         <div class="nav-item">Pull List</div>
-        <div class="mt-auto p-4 text-[9px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Warehouse V6.1</div>
+        <div class="mt-auto p-4 text-[9px] text-gray-500 uppercase tracking-widest border-t border-gray-800">Build V6.2</div>
     </nav>
 
     <main class="flex-1 flex flex-col">
@@ -48,7 +50,7 @@
                 </div>
                 <div class="text-right">
                     <div class="text-[#00d4ff] text-xl font-bold leading-none uppercase italic">Creative</div>
-                    <div class="text-[8px] tracking-[3px] text-gray-400">LED LOGISTICS</div>
+                    <div class="text-[8px] tracking-[3px] text-gray-400">LED TECHNICIAN</div>
                 </div>
             </div>
         </header>
@@ -57,44 +59,50 @@
             <button class="step-tab active" id="tab1" onclick="goToStep(1)">1. HARDWARE</button>
             <button class="step-tab" id="tab2" onclick="goToStep(2)">2. POWER/HVAC</button>
             <button class="step-tab" id="tab3" onclick="goToStep(3)">3. PROCESSING</button>
-            <button class="step-tab" id="tab4" onclick="goToStep(4)">4. PULL LIST</button>
+            <button class="step-tab" id="tab4" onclick="goToStep(4)">4. LOGISTICS</button>
             <button class="step-tab" id="tab5" onclick="goToStep(5)">5. SUMMARY</button>
         </div>
 
         <div class="content-area">
+            
             <div id="step-1" class="step-content active">
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <div class="lg:col-span-1 glass-panel">
-                        <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-800 pb-2">Inventory Setup</h2>
+                        <h2 class="text-xs text-gray-400 uppercase tracking-widest mb-6 border-b border-gray-800 pb-2">Wall Setup</h2>
                         <div class="space-y-4">
                             <div>
-                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Product Category</label>
+                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Category</label>
                                 <select id="prodCat" onchange="populateModels()">
-                                    <option value="carbon">Carbon Series (CB3/CB5)</option>
-                                    <option value="pearl">Black Pearl / Onyx</option>
-                                    <option value="ruby">Ruby / Sapphire</option>
-                                    <option value="quartz">Black Quartz</option>
-                                    <option value="graphite">ROE Graphite</option>
-                                    <option value="vanish">Vanish Transparent</option>
-                                    <option value="floor">Black Marble Floor</option>
-                                    <option value="aoto">AOTO Displays</option>
+                                    <option value="carbon">ROE Carbon (CB3/CB5)</option>
+                                    <option value="pearl">ROE Black Pearl / Onyx</option>
+                                    <option value="ruby">ROE Ruby / Sapphire</option>
+                                    <option value="quartz">ROE Black Quartz</option>
+                                    <option value="floor">Floor (Marble/INFiLED)</option>
                                 </select>
                             </div>
                             <div>
-                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Specific Model</label>
+                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Model</label>
                                 <select id="prodModel" onchange="calculate()">
                                     </select>
                             </div>
+                            <div>
+                                <label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Installation Type</label>
+                                <select id="installType" onchange="calculate()">
+                                    <option value="hanging">Hanging (Flown)</option>
+                                    <option value="ground">Ground Stacked</option>
+                                    <option value="wall">Wall Hung / Mounted</option>
+                                </select>
+                            </div>
                             <div class="grid grid-cols-2 gap-4">
                                 <div><label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty Wide</label><input type="number" id="wQty" value="12" oninput="calculate()"></div>
-                                <div><label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty High</label><input type="number" id="hQty" value="7" oninput="calculate()"></div>
+                                <div><label class="text-[10px] text-gray-500 block mb-1 uppercase font-bold">Qty High</label><input type="number" id="hQty" value="8" oninput="calculate()"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="lg:col-span-2 glass-panel flex flex-col justify-center items-center relative">
+                    <div class="lg:col-span-2 glass-panel flex flex-col justify-center items-center relative bg-black/20">
                         <div id="outDim" class="text-xl font-bold mb-4 tracking-tighter">--</div>
                         <div id="visualGrid" class="grid gap-1 bg-black p-2 border border-gray-700"></div>
-                        <div class="mt-4 text-[10px] text-zinc-500 uppercase tracking-widest" id="resTotalText">-- TOTAL TILES</div>
+                        <div class="mt-4 text-[10px] text-zinc-500 uppercase tracking-widest" id="resTotalText">-- TILES</div>
                     </div>
                 </div>
             </div>
@@ -106,50 +114,63 @@
                         <div id="pwrMax" class="stat-val text-orange-500">--</div><p class="text-[10px] text-gray-500">kW</p>
                     </div>
                     <div class="glass-panel text-center border-l-4 border-blue-500">
-                        <p class="text-[10px] text-gray-500 uppercase mb-2">Amps @ 208V (US 3P)</p>
-                        <div id="pwrAmps" class="stat-val">--</div>
-                        <p class="text-[10px] text-gray-500 font-bold uppercase">Per Phase</p>
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">US Standard Amps (3P)</p>
+                        <div id="pwrAmps" class="stat-val">--</div><p class="text-[10px] text-gray-500">@ 208V Per Phase</p>
                     </div>
-                    <div class="glass-panel text-center"><p class="text-[10px] text-gray-500 uppercase mb-2">Thermal Output</p><div id="pwrBTU" class="stat-val">--</div><p class="text-[10px] text-gray-500">BTU / hr</p></div>
+                    <div class="glass-panel text-center">
+                        <p class="text-[10px] text-gray-500 uppercase mb-2">HVAC Thermal Load</p>
+                        <div id="pwrBTU" class="stat-val">--</div><p class="text-[10px] text-gray-500">BTU / hr</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step-3" class="step-content">
+                <div class="max-w-4xl mx-auto space-y-4">
+                    <div class="glass-panel flex justify-between items-center">
+                        <div><p class="text-sm font-bold">Brompton Tessera SX40 / XD</p><p class="text-[10px] text-gray-500 uppercase">4K Infrastructure</p></div>
+                        <div class="badge badge-ok" id="procSX40">-- Units</div>
+                    </div>
+                    <div class="glass-panel flex justify-between items-center">
+                        <div><p class="text-sm font-bold">Brompton Tessera M2</p><p class="text-[10px] text-gray-500 uppercase">HD Infrastructure</p></div>
+                        <div class="badge badge-ok" id="procM2">-- Units</div>
+                    </div>
+                    <div class="glass-panel flex justify-between items-center">
+                        <div><p class="text-sm font-bold">MegaPixel Helios (8K)</p><p class="text-[10px] text-gray-500 uppercase">Enterprise Workflow</p></div>
+                        <div class="badge badge-ok" id="procHelios">-- Units</div>
+                    </div>
                 </div>
             </div>
 
             <div id="step-4" class="step-content">
-                <div class="max-w-4xl mx-auto glass-panel">
-                    <h3 class="text-white font-bold mb-6 border-b border-gray-800 pb-2 uppercase text-xs tracking-widest">Warehouse Equipment Pull</h3>
-                    <table class="w-full text-left text-sm">
-                        <tbody class="divide-y divide-zinc-800">
-                            <tr><td class="py-3 text-zinc-400">Socapex to 6x Powercon TRUE1</td><td id="invSoca" class="py-3 text-right font-bold">--</td></tr>
-                            <tr><td class="py-3 text-zinc-400">Cat6 Ethercon Home-Runs</td><td id="invCat6" class="py-3 text-right font-bold text-blue-400">--</td></tr>
-                            <tr><td class="py-3 text-zinc-400">LED Control Laptop / Workbox</td><td class="py-3 text-right font-bold">1</td></tr>
-                        </tbody>
-                    </table>
-                </div>
+                 <div class="max-w-4xl mx-auto glass-panel">
+                    <h3 class="text-white font-bold mb-6 border-b border-gray-800 pb-2 uppercase text-xs">Cabling Distribution</h3>
+                    <div class="flex justify-between py-2 border-b border-zinc-800"><span>Socapex 19-Pin Looms</span><span id="cblSoca" class="font-bold">--</span></div>
+                    <div class="flex justify-between py-2"><span>Cat6 Data Home-Runs</span><span id="cblCat" class="font-bold text-blue-400">--</span></div>
+                 </div>
             </div>
 
             <div id="step-5" class="step-content">
                 <div id="printArea" class="max-w-5xl mx-auto glass-panel">
                     <div class="flex justify-between border-b border-gray-800 pb-4 mb-6">
-                        <h2 class="text-xl font-bold uppercase italic tracking-tighter">Technical Specification</h2>
-                        <span class="text-gray-500 text-[10px] uppercase" id="printDate"></span>
+                        <h2 class="text-xl font-bold uppercase italic tracking-tighter text-[#00d4ff]">Engineering Specification</h2>
+                        <span id="resInstall" class="bg-blue-600 text-[10px] px-3 py-1 rounded-full font-bold uppercase"></span>
                     </div>
                     <div class="grid grid-cols-3 gap-8">
-                        <div class="space-y-1">
-                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Physical</p>
-                            <p id="sumMod" class="text-sm font-bold text-white">--</p>
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Display</p>
+                            <p id="sumMod" class="text-lg font-bold">--</p>
                             <p id="sumTotal" class="text-xs text-gray-400">-- Tiles</p>
                             <p id="sumWeight" class="text-xs text-white font-bold">--</p>
                         </div>
-                        <div class="space-y-1">
-                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Electrical</p>
-                            <p id="sumKW" class="text-sm font-bold text-white">-- kW</p>
-                            <p id="sumAmps" class="text-xs text-gray-400">-- Amps (3P)</p>
-                            <p id="sumCirc" class="text-xs text-gray-400">-- Circuits</p>
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Safety</p>
+                            <p class="text-xs">Rigging Load: <span id="sumLoad" class="font-bold">--</span></p>
+                            <p class="text-xs">Req. Ballast: <span id="sumBallast" class="text-yellow-500 font-bold">--</span></p>
                         </div>
-                        <div class="space-y-1">
-                            <p class="text-[10px] text-blue-400 uppercase font-bold mb-2">Logistics</p>
-                            <p id="sumPx" class="text-sm font-bold font-mono text-white">--</p>
-                            <p id="sumPorts" class="text-xs text-gray-400">-- Data Home-Runs</p>
+                        <div>
+                            <p class="text-[10px] text-gray-500 uppercase font-bold mb-2">Pixels</p>
+                            <p id="sumPx" class="text-sm font-mono font-bold">--</p>
+                            <p id="sumMP" class="text-[10px] text-gray-500">-- Megapixels</p>
                         </div>
                     </div>
                 </div>
@@ -165,36 +186,24 @@
     <script>
         const inventory = {
             carbon: [
-                { name: 'CB3 Full (120x60cm) [Brompton]', w: 1200, h: 600, weight: 19.5, pMax: 450, pxW: 346, pxH: 173 },
-                { name: 'CB3 Half (60x60cm) [Brompton]', w: 600, h: 600, weight: 9.8, pMax: 220, pxW: 173, pxH: 173 },
-                { name: 'CB5 (5.7mm) [Brompton]', w: 600, h: 600, weight: 9.2, pMax: 210, pxW: 104, pxH: 104 },
-                { name: 'CB4 (4.4mm) [Brompton]', w: 600, h: 600, weight: 9.5, pMax: 200, pxW: 136, pxH: 136 }
+                { name: 'CB3 Full (120x60cm)', w: 1200, h: 600, weight: 19.5, pMax: 450, pxW: 346, pxH: 173 },
+                { name: 'CB3 Half (60x60cm)', w: 600, h: 600, weight: 9.8, pMax: 220, pxW: 173, pxH: 173 },
+                { name: 'CB5 (5.7mm)', w: 600, h: 600, weight: 9.2, pMax: 210, pxW: 104, pxH: 104 }
             ],
             pearl: [
-                { name: 'BP2 V2 (2.8mm) [Brompton]', w: 500, h: 500, weight: 8.8, pMax: 200, pxW: 176, pxH: 176 },
-                { name: 'BO3.4 V2 (3.4mm) [Brompton]', w: 500, h: 500, weight: 9.5, pMax: 220, pxW: 144, pxH: 144 }
+                { name: 'BP2 V2 (2.8mm)', w: 500, h: 500, weight: 8.8, pMax: 200, pxW: 176, pxH: 176 },
+                { name: 'BO3.4 V2 (3.4mm)', w: 500, h: 500, weight: 9.5, pMax: 220, pxW: 144, pxH: 144 }
             ],
             ruby: [
-                { name: 'Ruby RB1.5 V2 [Helios]', w: 500, h: 500, weight: 8.0, pMax: 250, pxW: 320, pxH: 320 },
-                { name: 'Sapphire 1.5mm [Helios]', w: 500, h: 250, weight: 4.5, pMax: 120, pxW: 333, pxH: 166 }
+                { name: 'Ruby RB1.5 V2', w: 500, h: 500, weight: 8.0, pMax: 250, pxW: 320, pxH: 320 },
+                { name: 'Sapphire 1.5mm', w: 500, h: 250, weight: 4.5, pMax: 120, pxW: 333, pxH: 166 }
             ],
             quartz: [
-                { name: 'Black Quartz 3.9 Full (0.5x1m)', w: 500, h: 1000, weight: 18.0, pMax: 450, pxW: 128, pxH: 256 },
-                { name: 'Black Quartz 3.9 Half (0.5x0.5m)', w: 500, h: 500, weight: 9.0, pMax: 225, pxW: 128, pxH: 128 }
-            ],
-            graphite: [
-                { name: 'Graphite 2.6 Full (0.5x1m)', w: 500, h: 1000, weight: 14.0, pMax: 340, pxW: 192, pxH: 384 },
-                { name: 'Graphite 2.6 Half (0.5x0.5m)', w: 500, h: 500, weight: 7.0, pMax: 170, pxW: 192, pxH: 192 }
-            ],
-            vanish: [
-                { name: 'Vanish V8S (1x1m)', w: 1000, h: 1000, weight: 13.0, pMax: 300, pxW: 112, pxH: 112 }
+                { name: 'Black Quartz 3.9 Full', w: 500, h: 1000, weight: 18.0, pMax: 450, pxW: 128, pxH: 256 },
+                { name: 'Black Quartz 3.9 Half', w: 500, h: 500, weight: 9.0, pMax: 225, pxW: 128, pxH: 128 }
             ],
             floor: [
-                { name: 'Black Marble BM4 (60x60cm)', w: 609, h: 609, weight: 18.0, pMax: 200, pxW: 128, pxH: 128 },
-                { name: 'INFiLED Floor 5.9', w: 500, h: 500, weight: 9.0, pMax: 200, pxW: 84, pxH: 84 }
-            ],
-            aoto: [
-                { name: 'AOTO M3.5 Display', w: 500, h: 500, weight: 8.5, pMax: 200, pxW: 144, pxH: 144 }
+                { name: 'Black Marble BM4', w: 609, h: 609, weight: 18.0, pMax: 200, pxW: 128, pxH: 128 }
             ]
         };
 
@@ -223,45 +232,57 @@
             const spec = inventory[val[0]][val[1]];
             const w = parseInt(document.getElementById('wQty').value) || 1;
             const h = parseInt(document.getElementById('hQty').value) || 1;
+            const install = document.getElementById('installType').value;
             const total = w * h;
 
             const totalWeightKg = total * spec.weight;
             const widthM = (w * spec.w) / 1000;
             const heightM = (h * spec.h) / 1000;
             
-            // US Conversions
-            const widthFt = widthM * 3.28;
-            const heightFt = heightM * 3.28;
-            const weightLbs = totalWeightKg * 2.204;
-
-            document.getElementById('outDim').innerText = unitMode === 'metric' ? `${widthM.toFixed(1)}m x ${heightM.toFixed(1)}m` : `${widthFt.toFixed(1)}' x ${heightFt.toFixed(1)}'`;
+            // Physical UI
+            document.getElementById('outDim').innerText = unitMode === 'metric' ? `${widthM.toFixed(1)}m x ${heightM.toFixed(1)}m` : `${(widthM * 3.28).toFixed(1)}' x ${(heightM * 3.28).toFixed(1)}'`;
             document.getElementById('resTotalText').innerText = `${total} TOTAL TILES`;
 
+            // Power logic
             const kw = (total * spec.pMax) / 1000;
             document.getElementById('pwrMax').innerText = kw.toFixed(1);
             document.getElementById('pwrBTU').innerText = Math.round(kw * 3412).toLocaleString();
             document.getElementById('pwrAmps').innerText = Math.ceil((kw * 1000) / (208 * 1.73));
 
-            const totalPx = (w * spec.pxW) * (h * spec.pxH);
-            const ports = Math.ceil(totalPx / 600000);
+            // Processing logic (The Fix)
+            const tPx = (w * spec.pxW) * (h * spec.pxH);
+            document.getElementById('procSX40').innerText = Math.ceil(tPx / 8294400) + " Unit(s)";
+            document.getElementById('procM2').innerText = Math.ceil(tPx / 2073600) + " Unit(s)";
+            document.getElementById('procHelios').innerText = Math.ceil(tPx / 33177600) + " Unit(s)";
+            document.getElementById('resPx').innerText = `${w * spec.pxW} x ${h * spec.pxH}`;
+            document.getElementById('resMP').innerText = (tPx / 1000000).toFixed(2) + " MP";
 
-            document.getElementById('invSoca').innerText = Math.ceil(total / 84);
-            document.getElementById('invCat6').innerText = ports;
+            // Logistics
+            document.getElementById('cblSoca').innerText = Math.ceil(kw / 3.5);
+            document.getElementById('cblCat').innerText = Math.ceil(tPx / 650000);
 
+            // Summary
             document.getElementById('sumMod').innerText = spec.name;
             document.getElementById('sumTotal').innerText = `${total} Tiles`;
-            document.getElementById('sumWeight').innerText = unitMode === 'metric' ? `${totalWeightKg.toFixed(0)} kg` : `${Math.round(weightLbs)} lbs`;
-            document.getElementById('sumKW').innerText = kw.toFixed(1);
-            document.getElementById('sumPx').innerText = `${w * spec.pxW} x ${h * spec.pxH}`;
-            document.getElementById('printDate').innerText = new Date().toDateString();
+            document.getElementById('sumWeight').innerText = unitMode === 'metric' ? `${totalWeightKg.toFixed(0)} kg` : `${Math.round(totalWeightKg * 2.204)} lbs`;
+            document.getElementById('sumLoad').innerText = unitMode === 'metric' ? `${(totalWeightKg / w).toFixed(0)} kg/col` : `${((totalWeightKg * 2.204) / w).toFixed(0)} lbs/col`;
+            
+            // Ballast Logic
+            let ballast = 0;
+            if(install === 'ground') ballast = totalWeightKg * 0.7;
+            else if(install === 'hanging') ballast = 0; // Hanging load is on the points
+            document.getElementById('sumBallast').innerText = unitMode === 'metric' ? `${Math.round(ballast)} kg` : `${Math.round(ballast * 2.204)} lbs`;
+            document.getElementById('resInstall').innerText = install;
+            document.getElementById('sumPx').innerText = `${w * spec.pxW}x${h * spec.pxH}`;
 
+            // Grid
             const vGrid = document.getElementById('visualGrid');
-            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 20)}, 8px)`;
+            vGrid.style.gridTemplateColumns = `repeat(${Math.min(w, 24)}, 6px)`;
             vGrid.innerHTML = '';
-            for(let i=0; i < Math.min(total, 400); i++) {
-                const div = document.createElement('div');
-                div.style.width = '8px'; div.style.height = '8px'; div.style.background = '#1a1a2e';
-                vGrid.appendChild(div);
+            for(let i=0; i < Math.min(total, 600); i++) {
+                const d = document.createElement('div');
+                d.style.width = '6px'; d.style.height = '6px'; d.style.background = '#1a1a2e';
+                vGrid.appendChild(d);
             }
         }
 
@@ -273,7 +294,7 @@
             document.getElementById(`tab${s}`).classList.add('active');
         }
 
-        function nextStep() { if(step < 5) { goToStep(step + 1); } else { window.print(); } }
+        function nextStep() { if(step < 5) goToStep(step + 1); else window.print(); }
         function prevStep() { if(step > 1) goToStep(step - 1); }
 
         window.onload = populateModels;
